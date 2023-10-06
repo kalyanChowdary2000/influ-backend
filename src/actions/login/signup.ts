@@ -2,6 +2,8 @@ import express from 'express';
 import { MongoConnection } from '../../classes/mongo';
 import { TokenHandler } from '../../classes/tokenManagement';
 import { Encrypt } from '../../classes/encrypt';
+import { Instagram } from '../../classes/instagram';
+import { Youtube } from '../../classes/youtube';
 const stringHash = require("string-hash");
 const router = express.Router();
 router.post("/", async (req: any, res: any) => {
@@ -11,19 +13,32 @@ router.post("/", async (req: any, res: any) => {
             name,
             phone,
             password,
-            instagramFlag,
-            youtubeFlag
+            instagram,
+            youtube,
+            dob,
+            gender
         } = req.body
-
+        if (instagram != "") {
+            await Instagram.createItem(instagram, phone);
+        }
+         if(youtube!="") {
+            await Youtube.createItem(youtube, phone)
+        }
         let mongoResponse = await MongoConnection.addUser({
             _id: phone,
             name: name,
             email: email,
             password: stringHash(password),
             role: "influ",
-            instagram: instagramFlag,
-            youtube: youtubeFlag
+            instagram: instagram,
+            youtube: youtube,
+            dob: dob,
+            gender: gender,
+            imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
         })
+
+        console.log(">>>>>>>>>>>>>>>> ", mongoResponse);
+
         if (mongoResponse.success) {
             let token = await TokenHandler.generateToken({
                 _id: phone,
@@ -31,8 +46,12 @@ router.post("/", async (req: any, res: any) => {
                 email: email,
                 password: stringHash(password),
                 role: "influ",
-                instagram: instagramFlag,
-                youtube: youtubeFlag
+                instagram: instagram,
+                youtube: youtube,
+                dob: dob,
+                
+                gender: gender,
+                imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
             });
             res.send(await Encrypt.jsonEncrypt({
                 success: true,
@@ -40,8 +59,12 @@ router.post("/", async (req: any, res: any) => {
                     _id: phone,
                     name: name,
                     email: email,
-                    instagram: instagramFlag,
-                    youtube: youtubeFlag
+                    instagram: instagram,
+                    youtube: youtube,
+                    dob: dob,
+                   
+                    gender: gender,
+                    imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
                 },
                 token: token
             }));

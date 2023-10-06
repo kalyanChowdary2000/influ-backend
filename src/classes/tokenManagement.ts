@@ -10,10 +10,16 @@ export class TokenHandler {
         return key;
     }
     static async updateToken(key:any,data:any){
+        try{
+            console.log(key,data);
         let client = RedisConnector.getAppRedisConnection();
       let tokenResponse=  await client.set(key, JSON.stringify(data))
       console.log("------->> token resposne is ",tokenResponse);
         return key;
+        }
+        catch(e:any){
+            console.error('Error in updating the redis', e);
+        }
     }
     static async storeOrderId(id: any): Promise<string> {
         let client = RedisConnector.getAppRedisConnection();

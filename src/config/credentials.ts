@@ -13,5 +13,10 @@ export class Config{
        password: 'eTzRGb3VxijlFVotUxL2hbLZRgNm6JI3'
     };
     static encryptionKey='/tck8EIqBYxdrf1yPgMt9aA9/28ZI/g83KnLpWt1ojo=';
-    static encryptionString='@kalyan_chowdary'
+    static encryptionString='@kalyan_chowdary';
+    static aws = {
+        accessId: "AKIA3QZSA6AFNCNBGZ7H",
+        sceretKey: "nZO62hdvVC9UCLeVfUH9EtKzueUi/qCdbLqGovQ+",
+        region: "ap-south-1"
+    }
 }

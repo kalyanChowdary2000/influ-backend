@@ -7,26 +7,49 @@ router.post("/", async (req: any, res: any) => {
     try {
         let mongoResponse = await MongoConnection.findAllUsers();
         let userData: any = mongoResponse.data;
-        console.log(userData,req.body.category)
-        let influencerCount=0;
-        for(let i=0;i<userData.length;i++){
-            let categoryList=userData[i].category;
-            for(let j=0;j<categoryList.length;j++){
-                console.log(categoryList[j],req.body.category);
-                if(categoryList[j]==req.body.category){
-                    influencerCount++;
+        console.log(userData, req.body.category)
+        let instagramInfluencerCount = 0;
+        let youtubeInfluencerCount = 0;
+        let instagramFollowerCount = 0;
+        let instagramEr = 0;
+        let youtubeFollowerCount = 0;
+        let youtubeEr = 0;
+        for (let i = 0; i < userData.length; i++) {
+            let categoryList = userData[i].category;
+            for (let j = 0; j < categoryList.length; j++) {
+                console.log(categoryList[j], req.body.category);
+                if (categoryList[j] == req.body.category) {
+                    if (userData[i].instagram != '' && req.body.instaFlag) {
+                        let igData:any = await MongoConnection.fetchInstagram(userData[i].instagram)
+                        console.log('ig Data is ', igData,igData.data.followerCount);
+                        instagramFollowerCount=instagramFollowerCount+igData.data.followerCount;
+                        instagramEr=igData.data.engagementRate;
+                        instagramInfluencerCount++;
+                    }
+                    if(userData[i].youtube!="" && req.body.ytFlag){
+                        let ytData:any = await MongoConnection.fetchYoutube(userData[i].youtube)
+                        console.log('ytData  is ', ytData,ytData.data.followerCount);
+                        youtubeFollowerCount=youtubeFollowerCount+parseInt(ytData.data.followerCount);
+                        youtubeEr=ytData.data.engagementRate;
+                        youtubeInfluencerCount++;
+                    }
                     break;
                 }
             }
-            
         }
         res.send(await Encrypt.jsonEncrypt({
             success: true,
             data: {
-                influencerCount: influencerCount
+                instagramInfluencerCount:instagramInfluencerCount,
+                instagramFollowerCount:instagramFollowerCount,
+                instagramEr:instagramInfluencerCount>0?(instagramEr/instagramInfluencerCount):0,
+                youtubeInfluencerCount:youtubeInfluencerCount,
+                youtubeFollowerCount:youtubeFollowerCount,
+                youtubeEr:youtubeInfluencerCount>0?(youtubeEr/youtubeInfluencerCount):0,
             }
         }));
     } catch (e: any) {
+        console.log(e);
         res.status(400).send(await Encrypt.jsonEncrypt({
             success: false,
             message: `This is an error! ${e}`

@@ -19,4 +19,11 @@ export class Config{
         sceretKey: "nZO62hdvVC9UCLeVfUH9EtKzueUi/qCdbLqGovQ+",
         region: "ap-south-1"
     }
+    static ccavenurCred = {
+        prod: {
+            merchant_id: "2566643",
+            access_key: "AVLV77KF82BE27VLEB",
+            working_key: "8D897EB0340D9B711983F569722DB906"
+        },
+    }
 }

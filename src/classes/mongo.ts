@@ -8,33 +8,63 @@ const userSchema = new Schema({
     email: { type: String, required: true },
     role: { type: String, required: true },
     password: { type: String, required: true },
-    gender: { type: String, required: true },
-    dob: { type: String, required: true },
+    gender: { type: String },
+    dob: { type: String },
     city: { type: String },
     state: { type: String },
     pinCode: { type: String },
     imageLink: { type: String },
-    category:{},
+    category: {},
     instagram: {},
     youtube: {},
+    designaiton: {}
 
 });
+const transactionSchema = new Schema({
+    _id: { type: String, required: true },
+    amount: { type: String, required: true },
+    userId: { type: String, required: true },
+    createTime: { type: String, required: true },
+
+
+});
+
 const addSchema = new Schema({
     _id: { type: String, require: true },
     tittle: { type: String, required: true },
     description: { type: String, required: true },
     socialMediaLinks: {},
+    createdTime: {},
     category: {},
     status: {},
-    influencersList: {}
+    approveStatus: {},
+    companyUserId: { type: String, required: true },
+    influencersList: {},
+    instaFlag: {},
+    ytFlag: {}
+});
+const comAddSchema = new Schema({
+    _id: { type: String, require: true },
+    addId: { type: String, require: true },
+    addData:{},
+    active:{type:Boolean,require:true},
+    influId:{ type: String, require: true },
+    instaFlag:{type:Boolean,require:true},
+    ytFlag:{type:Boolean,require:true},
+    ytPostLink:{type:String,require:true},
+    instaPostLink:{type:String,require:true},
+    instagram:{},
+    youtube:{},
+    instaData:{},
+    ytData:{}
 });
 const instagraSchema = new Schema({
     _id: { type: String, require: true },
     userId: { type: String, require: true },
-    followerCount:{},
-    engagementRate:{},
-    reach:{},
-    active: { },
+    followerCount: {},
+    engagementRate: {},
+    reach: {},
+    active: {},
     story: { type: Boolean },
     reel: { type: Boolean },
     post: { type: Boolean }
@@ -43,11 +73,11 @@ const instagraSchema = new Schema({
 const youtubeSchema = new Schema({
     _id: { type: String, require: true },
     userId: { type: String, require: true },
-    followerCount:{},
-    engagementRate:{},
-    customUrl:{},
-    reach:{},
-    active: { },
+    followerCount: {},
+    engagementRate: {},
+    customUrl: {},
+    reach: {},
+    active: {},
     story: { type: Boolean },
     short: { type: Boolean },
     post: { type: Boolean }
@@ -59,6 +89,13 @@ const User = model('User', userSchema);
 const Instagram = model('Instagram', instagraSchema);
 const Youtube = model("Youtube", youtubeSchema);
 const Add = model('Add', addSchema);
+const Transaction = model('Transaction', transactionSchema);
+const ComAdd=model('ComAdd',comAddSchema);
+
+
+
+
+
 export class MongoConnection {
     static async initialization(url: any) {
         try {
@@ -74,6 +111,23 @@ export class MongoConnection {
             console.log(data)
             let user = new User(data);
             await user.save();
+            return {
+                success: true
+            }
+        }
+        catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+    }
+    static async addTransaction(data: any) {
+        try {
+            console.log(data)
+            let transaction = new Transaction(data);
+            await transaction.save();
             return {
                 success: true
             }
@@ -118,7 +172,7 @@ export class MongoConnection {
     }
     static async findAllUsers() {
         try {
-            let res = await User.find();
+            let res = await User.find({ role: "influ" });
             return {
                 success: true,
                 data: res
@@ -137,6 +191,20 @@ export class MongoConnection {
             let add = new Add(data);
             await add.save();
             return { success: true };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
+    static async fetchAdd(data: any) {
+        try {
+            console.log(data);
+            let add = await Add.find(data);
+            return { success: true, data: add };
         } catch (e: any) {
             console.log(e);
             return {
@@ -165,7 +233,7 @@ export class MongoConnection {
         try {
             console.log(instagramId);
             let instagramData = await Instagram.findById(instagramId);
-            return { success: true,data:instagramData };
+            return { success: true, data: instagramData };
         } catch (e: any) {
             console.log(e);
             return {
@@ -175,10 +243,25 @@ export class MongoConnection {
         }
 
     }
-    static async fetchAllInstagram(){
+    static async updateInstagram(instagramId: String, update: any) {
+        try {
+            console.log(instagramId, update);
+            let res = await Instagram.findByIdAndUpdate(instagramId, update);
+            console.log("instagram update response ", res);
+            return { success: true };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
+    static async fetchAllInstagram() {
         try {
             let instagramData = await Instagram.find();
-            return { success: true,data:instagramData };
+            return { success: true, data: instagramData };
         } catch (e: any) {
             console.log(e);
             return {
@@ -204,9 +287,24 @@ export class MongoConnection {
     }
     static async fetchYoutube(channelId: any) {
         try {
-            console.log("channel Id is",channelId)
+            console.log("channel Id is", channelId)
             let youtubeData = await Youtube.findById(channelId);
-            return { success: true,data:youtubeData };
+            return { success: true, data: youtubeData };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
+    static async updateYoutube(channelId: String, update: any) {
+        try {
+            console.log(channelId, update);
+            let res = await Youtube.findByIdAndUpdate(channelId, update);
+            console.log("Youtube update response ", res);
+            return { success: true };
         } catch (e: any) {
             console.log(e);
             return {
@@ -218,9 +316,9 @@ export class MongoConnection {
     }
     static async fetchAllYoutube() {
         try {
-            
+
             let youtubeData = await Youtube.find();
-            return { success: true,data:youtubeData };
+            return { success: true, data: youtubeData };
         } catch (e: any) {
             console.log(e);
             return {
@@ -229,5 +327,64 @@ export class MongoConnection {
             }
         }
 
+    }
+
+
+    static async addComAdd(data: any) {
+        try {
+            console.log(data);
+            let comAdd = new ComAdd(data);
+            await comAdd.save();
+            return { success: true };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
+    static async fetchComAdd(data: any) {
+        try {
+            console.log(data);
+            let add = await ComAdd.find(data);
+            return { success: true, data: add };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
+    static async fetchAllComAdd() {
+        try {
+           // console.log(data);
+            let add = await ComAdd.find({});
+            return { success: true, data: add };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
+    static async editComAdd(find: any, update: any) {
+        try {
+            console.log(find, update)
+            await ComAdd.findByIdAndUpdate(find, update);
+            return true;
+        }
+        catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
     }
 }

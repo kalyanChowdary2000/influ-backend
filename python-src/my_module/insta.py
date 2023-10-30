@@ -6,37 +6,27 @@ app = Flask(__name__)
 @app.route('/get_follower_count', methods=['POST'])
 def get_follower_count():
     data = request.get_json()
-    
     if 'username' not in data:
         return jsonify({'error': 'Please provide a username in the request body'}), 400
-
     username = data['username']
-
     bot = instaloader.Instaloader()
-    
     try:
         profile = instaloader.Profile.from_username(bot.context, username)
     except Exception as e:
         return jsonify({'error': f'Error fetching profile: {str(e)}'}), 400
-
     followers_count = profile.followers
-    
     response_data = {
         'username': username,
         'followers_count': followers_count
     }
-
     return jsonify(response_data)
 
 @app.route('/get_instagram_bio', methods=['POST'])
 def get_instagram_bio():
     data = request.get_json()
-    
     if 'username' not in data:
         return jsonify({'error': 'Please provide a username in the request body'}), 400
-
     username = data['username']
-
     bot = instaloader.Instaloader()
     
     try:
@@ -183,6 +173,151 @@ def get_yt_engagement_rate():
         "customUrl":ch_response['items'][0]['snippet']['customUrl']
     }
     return jsonify(response_data)
+
+@app.route('/get_latest_yt_video_info', methods=['POST'])
+def get_latest_yt_video_info():
+    data = request.get_json()
+    
+    if 'developerKey' not in data or 'channelId' not in data:
+        return jsonify({'error': 'Please provide a developer key and channel ID in the request body'}), 400
+
+    developerKey = data['developerKey']
+    channelId = data['channelId']
+
+    youtube = build('youtube', 'v3', developerKey=developerKey)
+    ch_request = youtube.channels().list(
+        part='contentDetails',
+        id=channelId
+    )
+    ch_response = ch_request.execute()
+
+    # Get the upload playlist of the channel
+    allUploadedVideosPlaylist = ch_response["items"][0]['contentDetails']['relatedPlaylists']['uploads']
+
+    # Retrieve the details of the latest video
+    latest_video = youtube.playlistItems().list(
+        playlistId=allUploadedVideosPlaylist,
+        part='snippet',
+        maxResults=1
+    ).execute()
+
+    if 'items' not in latest_video:
+        return jsonify({'error': 'No videos found in the playlist'}), 400
+
+    latest_video_info = latest_video['items'][0]['snippet']
+    video_id = latest_video_info['resourceId']['videoId']
+    video_title = latest_video_info['title']
+    video_description = latest_video_info['description']
+    response_data = {
+        'video_id': video_id,
+        'video_title': video_title,
+        'description': video_description
+    }
+
+    return jsonify(response_data)
+@app.route('/get_latest_insta_post_info', methods=['POST'])
+def get_latest_insta_post_info():
+    data = request.get_json()
+    
+    if 'username' not in data:
+        return jsonify({'error': 'Please provide a developer key and channel ID in the request body'}), 400
+
+    username = data['username']
+    bot = instaloader.Instaloader()
+#replace your instagram username where"yraveena_01"
+# profile1=bot.interactive_login("kalyan_chowdary21")
+    profile = instaloader.Profile.from_username(bot.context, 'jennierubyjane')
+    posts = profile.get_posts()
+    for index, post in enumerate(posts, 1):
+        postData=post;
+        break;
+    response_data = {
+        'shortcode':postData.shortcode,
+        'description':postData.caption,  
+    }
+
+    return jsonify(response_data)
+
+@app.route('/get_instagram_post_metrics', methods=['POST'])
+def get_instagram_post_metrics():
+    data = request.get_json()
+
+    if 'username' not in data or 'shortcode' not in data:
+        return jsonify({'error': 'Please provide a username and post URL in the request body'}), 400
+
+    username = data['username']
+    shortcode = data['shortcode']
+    print(shortcode); 
+    bot = instaloader.Instaloader()
+
+    try:
+        profile = instaloader.Profile.from_username(bot.context, username)
+        posts=profile.get_posts();
+        p1=''
+        for index, post in enumerate(posts, 1):
+            if post.shortcode==shortcode:
+                p1=post
+                break;
+        #post = instaloader.Post.from_shortcode(bot.context, shortcode)  # Use from_url to fetch the post by its URL.
+    except Exception as e:
+        return jsonify({'error': f'Error fetching profile or post: {str(e)}'}), 400
+
+    likes = p1.likes
+    comments = p1.comments
+    views=p1.video_view_count
+    url=p1.url
+    #shares = post_url  # Using the post URL as a unique identifier.
+
+    response_data = {
+        'username': username,
+        'shortcode': shortcode,
+        'likes': likes,
+        'comments': comments,
+        'views':views,
+        'url':url
+       # 'shares': shares
+    }
+
+    return jsonify(response_data)
+
+@app.route('/get_youtube_video_metrics', methods=['POST'])
+def get_youtube_video_metrics():
+    data = request.get_json()
+
+    if 'developerKey' not in data or 'videoId' not in data:
+        return jsonify({'error': 'Please provide a developer key and video ID in the request body'}), 400
+
+    developerKey = data['developerKey']
+    videoId = data['videoId']
+
+    youtube = build('youtube', 'v3', developerKey=developerKey)
+
+    # Retrieve the details of the specified video using its unique video ID.
+    video_response = youtube.videos().list(
+        part='statistics',
+        id=videoId
+    ).execute()
+
+    if 'items' not in video_response:
+        return jsonify({'error': 'Video not found'}), 404
+
+    video_stats = video_response['items'][0]['statistics']
+
+    view_count = int(video_stats.get("viewCount", 0))
+    like_count = int(video_stats.get("likeCount", 0))
+    dislike_count = int(video_stats.get("dislikeCount", 0))
+    comment_count = int(video_stats.get("commentCount", 0))
+
+    response_data = {
+        'videoId': videoId,
+        'viewCount': view_count,
+        'likeCount': like_count,
+        'dislikeCount': dislike_count,
+        'commentCount': comment_count
+    }
+
+    return jsonify(response_data)
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=6061)

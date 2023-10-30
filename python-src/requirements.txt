@@ -4,4 +4,5 @@ pip3 freeze > requirements.txt
 pip3 install -r requirements.txt
 pip3 install Flask
 pip3 install instaloader
+pip3 install --upgrade google-api-python-client 
 curl -X POST -H "Content-Type: application/json" -d '{"username":"jennierubyjane"}' http://127.0.0.1:5000/get_follower_count

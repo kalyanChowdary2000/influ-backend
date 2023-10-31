@@ -34,23 +34,27 @@ export class Youtube {
                 let data: any = await MongoConnection.findAllUsers();
                 let userData = data.data
                 for (let i = 0; i < userData.length; i++) {
-                    let channelId = userData[i].youtube;
-                    let axiosResponse = await axios.post('http://127.0.0.1:6061/get_yt_engagement_rate', {
-                        channelId: channelId,
-                        developerKey: "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
-                    });
-                    console.log(axiosResponse.data)
-                    let followerCount = axiosResponse.data.subscriberCount;
-                    let engagementRate = axiosResponse.data.engagementRate;
-                    let reach = followerCount * engagementRate;
-                    console.log("-----------------------------------------------youtube")
-                    await MongoConnection.updateYoutube(channelId, {
-                        followerCount: followerCount,
-                        engagementRate: engagementRate,
-                        reach: reach
-                    })
+                    try {
+                        let channelId = userData[i].youtube;
+                        let axiosResponse = await axios.post('http://127.0.0.1:6061/get_yt_engagement_rate', {
+                            channelId: channelId,
+                            developerKey: "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
+                        });
+                        console.log(axiosResponse.data)
+                        let followerCount = axiosResponse.data.subscriberCount;
+                        let engagementRate = axiosResponse.data.engagementRate;
+                        let reach = followerCount * engagementRate;
+                        console.log("-----------------------------------------------youtube")
+                        await MongoConnection.updateYoutube(channelId, {
+                            followerCount: followerCount,
+                            engagementRate: engagementRate,
+                            reach: reach
+                        })
+                    } catch (e: any) {
+                        console.log(e);
+                    }
                 }
-            }, 1000 * 60 * 3);
+            }, 1000 * 60 * 60);
         } catch (e: any) {
             console.log(e);
         }

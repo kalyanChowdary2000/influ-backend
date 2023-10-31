@@ -31,22 +31,26 @@ export class Instagram {
                 let data: any = await MongoConnection.findAllUsers();
                 let userData = data.data
                 for (let i = 0; i < userData.length; i++) {
-                    let instagramId = userData[i].instagram;
-                    let axiosResponse = await axios.post('http://127.0.0.1:6061/get_engagement_rate', {
-                        username: instagramId
-                    })
-                    console.log(axiosResponse.data)
-                    let followerCount = axiosResponse.data.followers_count;
-                    let engagementRate = axiosResponse.data.engagement_rate;
-                    let reach = followerCount * engagementRate;
-                    console.log("-----------------------------------------------instagram")
-                    await MongoConnection.updateInstagram(instagramId, {
-                        followerCount: followerCount,
-                        engagementRate: engagementRate,
-                        reach: reach
-                    })
+                    try {
+                        let instagramId = userData[i].instagram;
+                        let axiosResponse = await axios.post('http://127.0.0.1:6061/get_engagement_rate', {
+                            username: instagramId
+                        })
+                        console.log(axiosResponse.data)
+                        let followerCount = axiosResponse.data.followers_count;
+                        let engagementRate = axiosResponse.data.engagement_rate;
+                        let reach = followerCount * engagementRate;
+                        console.log("-----------------------------------------------instagram")
+                        await MongoConnection.updateInstagram(instagramId, {
+                            followerCount: followerCount,
+                            engagementRate: engagementRate,
+                            reach: reach
+                        })
+                    } catch (e: any) {
+                        console.log(e);
+                    }
                 }
-            }, 1000 * 60 * 4);
+            }, 1000 * 60 * 60);
         } catch (e: any) {
             console.log(e)
         }

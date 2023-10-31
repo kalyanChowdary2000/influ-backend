@@ -49,9 +49,9 @@ router.post("/", async (req: any, res: any) => {
                 }
             }
             if(!instaFlag&&!youtubeFlag){
-                let influencerList=addData[0].data.influencersList;
-                influencerList.append(userData.data._id);
-                await MongoConnection.updateAdd(addData.data[0]._id,{influencersList:influencerList})
+                let influencerList=addData.data[0].influencersList?addData.data[0].influencersList:[];
+                influencerList.push(userData.data._id);
+                await MongoConnection.updateAdd({tittle:addData.data[0].tittle},{influencersList:influencerList})
                 await MongoConnection.addComAdd({
                     _id:makeid(6),
                     addData:addData.data[0],
@@ -92,6 +92,7 @@ router.post("/", async (req: any, res: any) => {
         // }
 
     } catch (e: any) {
+        console.log(e);
         res.status(400).send(await Encrypt.jsonEncrypt({
             success: false,
             message: `This is an error! ${e}`

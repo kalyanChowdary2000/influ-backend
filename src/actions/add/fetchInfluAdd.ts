@@ -15,26 +15,38 @@ router.post("/", async (req: any, res: any) => {
             let mongoResponse = await MongoConnection.fetchAdd({ approveStatus: true });
             let addData: any = mongoResponse.data;
             let categoryFlag = false
-            let influAddData=[]
+            let influAddData = []
+            let alreadyPosted=false;
             console.log(addData.length)
             for (let i = 0; i < addData?.length; i++) {
                 let userCategory: any = userData.data.category;
                 categoryFlag = false
-               // console.log(addData[i]['category'],userData.data.category)
+                alreadyPosted=false
+                // console.log(addData[i]['category'],userData.data.category)
                 for (let j = 0; j < userCategory.length; j++) {
-                    console.log(i,addData[i]['category'],userCategory[j])
+                    console.log(i, addData[i]['category'], userCategory[j])
                     if (addData[i]['category'] == userCategory[j]) {
-                       // categoryFlag = true;
+                        categoryFlag = true;
+                        break;
 
-                        if(userData.data.instagram!=null || userData.data.youtube!=null){
-                            categoryFlag = true;
-                            influAddData.push(addData[i])
+                    }
+                }
+                console.log(addData[i]['influencersList']);
+                let influencersList=addData[i]['influencersList'];
+                if(influencersList){
+                    for(let j=0;j<influencersList.length;j++){
+                        if(influencersList[j]==userData.data._id){
+                            alreadyPosted=true
                             break;
                         }
                     }
                 }
                 console.log(categoryFlag)
-
+                if (categoryFlag&&!alreadyPosted) {
+                    if (userData.data.instagram != null || userData.data.youtube != null) {
+                        influAddData.push(addData[i])
+                    }
+                }
             }
             console.log(mongoResponse, "youtube data from db")
             console.log(influAddData);
@@ -57,6 +69,7 @@ router.post("/", async (req: any, res: any) => {
             }));
         }
     } catch (e: any) {
+        console.log(e)
         res.status(400).send(await Encrypt.jsonEncrypt({
             success: false,
             message: `This is an error! ${e}`

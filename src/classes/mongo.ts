@@ -216,8 +216,10 @@ export class MongoConnection {
     }
     static async updateAdd(find: any, update: any) {
         try {
+
             console.log(find, update)
-            await Add.findByIdAndUpdate(find, update);
+            console.log("-------------------- find -------------  update")
+            await Add.findOneAndUpdate(find, update);
            return true ;
         }
         catch (e: any) {

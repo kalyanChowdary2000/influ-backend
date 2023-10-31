@@ -17,8 +17,12 @@ const userSchema = new Schema({
     category: {},
     instagram: {},
     youtube: {},
-    designaiton: {}
-
+    designaiton: {},
+    accountNumber:{},
+    ifscCode:{},
+    branch:{},
+    bankName:{},
+    accountHolderName:{},
 });
 const transactionSchema = new Schema({
     _id: { type: String, required: true },

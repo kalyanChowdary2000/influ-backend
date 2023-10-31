@@ -214,6 +214,20 @@ export class MongoConnection {
         }
 
     }
+    static async updateAdd(find: any, update: any) {
+        try {
+            console.log(find, update)
+            await Add.findByIdAndUpdate(find, update);
+           return true ;
+        }
+        catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+    }
     static async addInstagram(data: any) {
         try {
             console.log(data);

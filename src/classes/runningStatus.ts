@@ -14,26 +14,34 @@ export class RunningStatus {
                 let ytAxiosResponse;
                 for (let i = 0; i < comAddData.length; i++) {
                     if (comAddData[i].instaFlag) {
-                        console.log(comAddData[i].instagram, comAddData[i].instaPostLink)
-                        instaAxiosResponse = await axios.post('http://127.0.0.1:6061/get_instagram_post_metrics', {
-                            "username": comAddData[i].instagram,
-                            "shortcode": comAddData[i].instaPostLink
-                        })
-                        console.log(instaAxiosResponse.data)
-                        await MongoConnection.editComAdd({ _id: comAddData[i]._id }, { instaData: instaAxiosResponse.data });
+                        try {
+                            console.log(comAddData[i].instagram, comAddData[i].instaPostLink)
+                            instaAxiosResponse = await axios.post('http://127.0.0.1:6061/get_instagram_post_metrics', {
+                                "username": comAddData[i].instagram,
+                                "shortcode": comAddData[i].instaPostLink
+                            })
+                            console.log(instaAxiosResponse.data)
+                            await MongoConnection.editComAdd({ _id: comAddData[i]._id }, { instaData: instaAxiosResponse.data });
+                        } catch (e: any) {
+                            console.log(e);
+                        }
                     }
                     if (comAddData[i].ytFlag) {
                         console.log(comAddData[i].youtube, comAddData[i].ytPostLink);
-                        ytAxiosResponse = await axios.post('http://127.0.0.1:6061/get_youtube_video_metrics', {
-                            "videoId": comAddData[i].ytPostLink,
-                            "developerKey": "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
-                        })
-                        console.log(ytAxiosResponse.data);
-                        await MongoConnection.editComAdd({ _id: comAddData[i]._id }, { ytData: ytAxiosResponse.data });
+                        try {
+                            ytAxiosResponse = await axios.post('http://127.0.0.1:6061/get_youtube_video_metrics', {
+                                "videoId": comAddData[i].ytPostLink,
+                                "developerKey": "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
+                            })
+                            console.log(ytAxiosResponse.data);
+                            await MongoConnection.editComAdd({ _id: comAddData[i]._id }, { ytData: ytAxiosResponse.data });
+                        } catch (e: any) {
+                            console.log(e);
+                        }
+                        console.log("---------------------------------------------------------------------------------  ", i);
                     }
-                    console.log("---------------------------------------------------------------------------------  ", i);
                 }
-            }, 1000 * 60 * 30)
+            }, 1000 * 60 * 2)
         } catch (e: any) {
             console.log(e);
         }

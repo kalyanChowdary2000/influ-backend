@@ -49,6 +49,9 @@ router.post("/", async (req: any, res: any) => {
                 }
             }
             if(!instaFlag&&!youtubeFlag){
+                let influencerList=addData[0].data.influencersList;
+                influencerList.append(userData.data._id);
+                await MongoConnection.updateAdd(addData.data[0]._id,{influencersList:influencerList})
                 await MongoConnection.addComAdd({
                     _id:makeid(6),
                     addData:addData.data[0],

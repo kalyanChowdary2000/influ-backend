@@ -39,13 +39,14 @@ export class Instagram {
                     let followerCount = axiosResponse.data.followers_count;
                     let engagementRate = axiosResponse.data.engagement_rate;
                     let reach = followerCount * engagementRate;
+                    console.log("-----------------------------------------------instagram")
                     await MongoConnection.updateInstagram(instagramId, {
                         followerCount: followerCount,
                         engagementRate: engagementRate,
                         reach: reach
                     })
                 }
-            }, 1000 * 60 * 30);
+            }, 1000 * 60 * 4);
         } catch (e: any) {
             console.log(e)
         }

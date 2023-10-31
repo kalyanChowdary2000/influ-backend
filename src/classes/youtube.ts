@@ -43,13 +43,14 @@ export class Youtube {
                     let followerCount = axiosResponse.data.subscriberCount;
                     let engagementRate = axiosResponse.data.engagementRate;
                     let reach = followerCount * engagementRate;
+                    console.log("-----------------------------------------------youtube")
                     await MongoConnection.updateYoutube(channelId, {
                         followerCount: followerCount,
                         engagementRate: engagementRate,
                         reach: reach
                     })
                 }
-            }, 1000 * 60 * 30);
+            }, 1000 * 60 * 3);
         } catch (e: any) {
             console.log(e);
         }

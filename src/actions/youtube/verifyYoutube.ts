@@ -13,6 +13,7 @@ router.post("/", async (req: any, res: any) => {
         const data = channelData.data;
         const arr = data.split('channel_id=');
         let channelId=arr[1].slice(0, 24)
+        //console.log("channel Id is")
         console.log("Channel ID:",channelId );
         let axiosResponse=await axios.post('http://127.0.0.1:6061/get_youtube_bio',{
             channelId:channelId,
@@ -21,7 +22,7 @@ router.post("/", async (req: any, res: any) => {
         console.log(axiosResponse.data)
         let description=axiosResponse.data.description;
         console.log(description.includes(verificationCode));
-        if(!description.includes(verificationCode)){
+        if(description.includes(verificationCode)){
             res.send(await Encrypt.jsonEncrypt({
                 success:true,
                 customUrl:axiosResponse.data.customUrl,

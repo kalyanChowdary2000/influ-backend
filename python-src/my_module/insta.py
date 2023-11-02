@@ -115,7 +115,11 @@ def get_yt_engagement_rate():
     ch_response = ch_request.execute()
     allUploadedVideosPlaylist =  ch_response["items"][0]['contentDetails']['relatedPlaylists']['uploads']
     videos = [ ]
+    print("---------------------------------------------------------- video count ",ch_response['items'][0]['statistics']['videoCount'])
     postCount=round(int(ch_response['items'][0]['statistics']['videoCount'])*0.1)
+    if(int(ch_response['items'][0]['statistics']['videoCount'])<10 and int(ch_response['items'][0]['statistics']['videoCount'])>0):
+        postCount=1
+
     next_page_token = None
     x=0;
     while True:

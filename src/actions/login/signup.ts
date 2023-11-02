@@ -73,6 +73,7 @@ router.post("/", async (req: any, res: any) => {
             throw new Error(mongoResponse.error)
         }
     } catch (e: any) {
+        console.log(e);
         res.status(400).send(await Encrypt.jsonEncrypt({
             success: false,
             message: `This is an error! ${e}`

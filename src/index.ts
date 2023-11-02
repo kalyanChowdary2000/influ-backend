@@ -29,6 +29,8 @@ import bodyParser from 'body-parser';
 import verifyAdd from './actions/add/verifyAdd';
 import fetchComAdd from './actions/add/fetchComAdd';
 import { RunningStatus } from './classes/runningStatus';
+import addInstagram from './actions/instagram/addInstagram';
+import addYoutube from './actions/youtube/addYoutube'
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -84,7 +86,9 @@ export class MainServer {
         MainServer.app.use('/testAdd',testAdd);
         MainServer.app.use('/fetchInfluAdd',fetchInfluAdd);
         MainServer.app.use('/verifyAdd',verifyAdd);
-        MainServer.app.use('/fetchComAdd',fetchComAdd)
+        MainServer.app.use('/fetchComAdd',fetchComAdd);
+        MainServer.app.use('/addInstagram',addInstagram)
+        MainServer.app.use('/addYoutube',addYoutube)
     }
 }
 

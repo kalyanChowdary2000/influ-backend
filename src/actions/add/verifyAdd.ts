@@ -4,6 +4,7 @@ import axios from 'axios';
 import { TokenHandler } from '../../classes/tokenManagement';
 import { MongoConnection } from '../../classes/mongo';
 import { makeid } from '../../utils/generalFunctions';
+import { RunningStatus } from '../../classes/runningStatus';
 const { ObjectId } = require('mongodb');
 const router = express.Router();
 
@@ -52,8 +53,9 @@ router.post("/", async (req: any, res: any) => {
                 let influencerList=addData.data[0].influencersList?addData.data[0].influencersList:[];
                 influencerList.push(userData.data._id);
                 await MongoConnection.updateAdd({tittle:addData.data[0].tittle},{influencersList:influencerList})
+                let addComId=makeid(6)
                 await MongoConnection.addComAdd({
-                    _id:makeid(6),
+                    _id:addComId,
                     addData:addData.data[0],
                     addId:addData.data[0]._id,
                     influId:userData.data._id,
@@ -65,6 +67,7 @@ router.post("/", async (req: any, res: any) => {
                     instaPostLink:instaAxiosResponse.data.shortcode,
                     active:true
                 })
+            await RunningStatus.immediateUpdate(addComId);
             }
             res.send(await Encrypt.jsonEncrypt({
                 success: true,

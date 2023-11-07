@@ -11,8 +11,13 @@ router.post("/", async (req: any, res: any) => {
         let userData:any=await TokenHandler.fetchToken(token);
         console.log(userData," user data is");
         if(userData!=null){
-        let mongoResponse = await MongoConnection.fetchAdd({companyUserId:id});
+        let mongoResponse:any = await MongoConnection.fetchAdd({companyUserId:id});
         console.log(mongoResponse,"youtube data from db")
+        mongoResponse.data.sort((a:any, b:any) => {
+            // Compare the "createdTime" field as strings
+            return b.createdTime-a.createdTime
+          });
+          console.log(mongoResponse,"youtube data from db")
         if (mongoResponse.success) {
             res.send(await Encrypt.jsonEncrypt({
                 success: true,
@@ -32,6 +37,7 @@ router.post("/", async (req: any, res: any) => {
         }));
     }
     } catch (e: any) {
+        console.log(e);
         res.status(400).send(await Encrypt.jsonEncrypt({
             success: false,
             message: `This is an error! ${e}`

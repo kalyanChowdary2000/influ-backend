@@ -87,6 +87,13 @@ const youtubeSchema = new Schema({
     post: { type: Boolean }
 })
 
+const contactSchema = new Schema({
+    _id: { type: String, require: true },
+    queryTittle:{ type: String, require: true },
+    queryContent:{ type: String, require: true },
+    contactDetails:{ type: String, require: true },
+    active:{}
+});
 
 
 const User = model('User', userSchema);
@@ -95,8 +102,7 @@ const Youtube = model("Youtube", youtubeSchema);
 const Add = model('Add', addSchema);
 const Transaction = model('Transaction', transactionSchema);
 const ComAdd=model('ComAdd',comAddSchema);
-
-
+const Contact=model('Contact',contactSchema);
 
 
 
@@ -125,6 +131,16 @@ export class MongoConnection {
                 success: false,
                 error: e.toString()
             }
+        }
+    }
+    static async deleteUser(find: any) {
+        try {
+            let res = await User.deleteOne(find);
+            return res;
+        }
+        catch (e: any) {
+            console.log(e);
+            return false;
         }
     }
     static async addTransaction(data: any) {
@@ -400,6 +416,22 @@ export class MongoConnection {
             return true;
         }
         catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+    }
+
+
+    static async addContact(data:any){
+        try {
+            console.log(data);
+            let contact = new Contact(data);
+            await contact.save();
+            return { success: true };
+        } catch (e: any) {
             console.log(e);
             return {
                 success: false,

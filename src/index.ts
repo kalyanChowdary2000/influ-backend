@@ -30,7 +30,11 @@ import verifyAdd from './actions/add/verifyAdd';
 import fetchComAdd from './actions/add/fetchComAdd';
 import { RunningStatus } from './classes/runningStatus';
 import addInstagram from './actions/instagram/addInstagram';
-import addYoutube from './actions/youtube/addYoutube'
+import addYoutube from './actions/youtube/addYoutube';
+import fetchRunningAdds from './actions/add/fetchRunningAdds';
+import deleteUser from './actions/login/deleteUser';
+import addContactUs from './actions/general/contactUs';
+
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -87,8 +91,11 @@ export class MainServer {
         MainServer.app.use('/fetchInfluAdd',fetchInfluAdd);
         MainServer.app.use('/verifyAdd',verifyAdd);
         MainServer.app.use('/fetchComAdd',fetchComAdd);
-        MainServer.app.use('/addInstagram',addInstagram)
-        MainServer.app.use('/addYoutube',addYoutube)
+        MainServer.app.use('/addInstagram',addInstagram);
+        MainServer.app.use('/addYoutube',addYoutube);
+        MainServer.app.use('/fetchRunningAdds',fetchRunningAdds);
+        MainServer.app.use('/deleteUser',deleteUser);
+        MainServer.app.use('/addContactUs',addContactUs);
     }
 }
 

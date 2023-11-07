@@ -14,6 +14,7 @@ router.post("/", async (req: any, res: any) => {
         } = req.body
         let userData=await TokenHandler.fetchToken(token);
         console.log(userData);
+        
         if(userData!=null){
             await Youtube.createItem(youtube, userData.data._id);
             let response:any =await MongoConnection.editUser(userData.data._id,{youtube:youtube});

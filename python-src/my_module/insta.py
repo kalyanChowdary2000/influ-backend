@@ -102,40 +102,47 @@ def get_youtube_bio():
 @app.route('/get_yt_engagement_rate', methods=['POST'])
 def get_yt_engagement_rate():
     data = request.get_json()
+    print("-------------------------------------");
     print(data);
-    if 'developerKey' not in data:
-        return jsonify({'error': 'Please provide a username in the request body'}), 400
-    developerKey=data['developerKey']
-    channelId=data['channelId']
-    youtube = build('youtube', 'v3',
-				developerKey=developerKey)
-    ch_request = youtube.channels().list(
-	part='snippet,statistics,contentDetails',
-	id=channelId)
-    ch_response = ch_request.execute()
-    allUploadedVideosPlaylist =  ch_response["items"][0]['contentDetails']['relatedPlaylists']['uploads']
-    videos = [ ]
-    print("---------------------------------------------------------- video count ",ch_response['items'][0]['statistics']['videoCount'])
-    postCount=round(int(ch_response['items'][0]['statistics']['videoCount'])*0.1)
-    if(int(ch_response['items'][0]['statistics']['videoCount'])<10 and int(ch_response['items'][0]['statistics']['videoCount'])>0):
-        postCount=1
+    try:
+        if 'developerKey' not in data:
+            return jsonify({'error': 'Please provide a username in the request body'}), 400
+        developerKey=data['developerKey']
+        channelId=data['channelId']
+        youtube = build('youtube', 'v3',
+	    			developerKey=developerKey)
+        print("==============================");
+        ch_request = youtube.channels().list(
+	    part='snippet,statistics,contentDetails',
+        id=channelId)
+        ch_response = ch_request.execute()
+        print(ch_response["items"])
+        print("==============================");
+        allUploadedVideosPlaylist =  ch_response["items"][0]['contentDetails']['relatedPlaylists']['uploads']
+        videos = [ ]
+        print("---------------------------------------------------------- video count ",ch_response['items'][0]['statistics']['videoCount'])
+        postCount=round(int(ch_response['items'][0]['statistics']['videoCount'])*0.1)
+        if(int(ch_response['items'][0]['statistics']['videoCount'])<10 and int(ch_response['items'][0]['statistics']['videoCount'])>0):
+            postCount=1
 
-    next_page_token = None
-    x=0;
-    while True:
-        playlistData = youtube.playlistItems().list(playlistId=allUploadedVideosPlaylist,
+        next_page_token = None
+        x=0;
+        while True:
+            playlistData = youtube.playlistItems().list(playlistId=allUploadedVideosPlaylist,
                                                part='snippet',
                                                pageToken=next_page_token).execute()
-        videos += playlistData['items']
-        next_page_token = playlistData.get('nextPageToken')
+            videos += playlistData['items']
+            next_page_token = playlistData.get('nextPageToken')
 
-        if next_page_token is None:
-            break
-    print("\n\n\n\n\n");
-    video_ids=[]  
-    for i in range(len(videos)):
-        video_ids.append(videos[i]["snippet"]["resourceId"]["videoId"])
-        i+=1 
+            if next_page_token is None:
+                break
+        print("\n\n\n\n\n");
+        video_ids=[]  
+        for i in range(len(videos)):
+            video_ids.append(videos[i]["snippet"]["resourceId"]["videoId"])
+            i+=1 
+    except Exception as e:
+        print("e");
     print(video_ids)
     print("\n\n\n\n\n");
     likes=0
@@ -230,7 +237,7 @@ def get_latest_insta_post_info():
     bot = instaloader.Instaloader()
 #replace your instagram username where"yraveena_01"
 # profile1=bot.interactive_login("kalyan_chowdary21")
-    profile = instaloader.Profile.from_username(bot.context, 'jennierubyjane')
+    profile = instaloader.Profile.from_username(bot.context, username)
     posts = profile.get_posts()
     for index, post in enumerate(posts, 1):
         postData=post;
@@ -258,14 +265,15 @@ def get_instagram_post_metrics():
         profile = instaloader.Profile.from_username(bot.context, username)
         posts=profile.get_posts();
         p1=''
-        for index, post in enumerate(posts, 1):
+        for index, post in enumerate(posts, 0):
+            print(post)
             if post.shortcode==shortcode:
                 p1=post
                 break;
         #post = instaloader.Post.from_shortcode(bot.context, shortcode)  # Use from_url to fetch the post by its URL.
     except Exception as e:
         return jsonify({'error': f'Error fetching profile or post: {str(e)}'}), 400
-
+    
     likes = p1.likes
     comments = p1.comments
     views=p1.video_view_count

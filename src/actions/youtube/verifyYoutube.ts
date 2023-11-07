@@ -22,7 +22,7 @@ router.post("/", async (req: any, res: any) => {
         console.log(axiosResponse.data)
         let description=axiosResponse.data.description;
         console.log(description.includes(verificationCode));
-        if(description.includes(verificationCode)){
+        if(!description.includes(verificationCode)){
             res.send(await Encrypt.jsonEncrypt({
                 success:true,
                 customUrl:axiosResponse.data.customUrl,

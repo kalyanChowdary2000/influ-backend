@@ -29,7 +29,6 @@
             max-width: 400px;
             margin: 0 auto;
             padding: 20px;
-            padding-right: 40px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             margin-top: 20px; /* Add margin to create a gap */
@@ -67,7 +66,7 @@
 <body>
     <h1>
         <img id="logo" src="../logo.jpg" alt="Your Logo">
-        Beinfluencer Create Ad
+        Beinfluencer Create Add
     </h1>
 
 
@@ -78,24 +77,38 @@
         <label for="description">Description:</label>
         <input type="text" name="description" required>
 
-        <label for="socialMediaLinks">Social Media Links:</label>
-        <div id="socialMediaLinksContainer">
-            <div>
-                <input type="text" name="socialMediaLinks" placeholder="Link" required>
-                <label class="checkbox-label">
-                    Image Flag:
-                    <input type="checkbox" class="image-flag-checkbox" name="imageFlag" value="true">
-                </label>
-            </div>
-        </div>
-        <button type="button" id="addSocialMediaLink">Add Social Media Link</button>
+        <label for="socialMediaLinks">Social Media Links (Separate with commas):</label>
+        <input type="text" name="socialMediaLinks" placeholder="e.g., https://twitter.com, https://facebook.com" required>
 
         <label for="category">Category:</label>
         <select name="category">
             <option value="FASHION">FASHION</option>
             <option value="GAMING">GAMING</option>
             <option value="FMCG">FMCG</option>
-            <!-- Add the rest of your categories as options -->
+            <option value="DEVOTIONAL">DEVOTIONAL</option>
+            <option value="TECH/SOFTWARE">TECH/SOFTWARE</option>
+            <option value="BUILDING MATERIALS">BUILDING MATERIALS</option>
+            <option value="HOME APPLIANCES">HOME APPLIANCES</option>
+            <option value="KIDS WELLBEING">KIDS WELLBEING</option>
+            <option value="FINANCE">FINANCE</option>
+            <option value="BEAUTY PRODUCTS">BEAUTY PRODUCTS</option>
+            <option value="GADGETS">GADGETS</option>
+            <option value="HOME SUPPLIES">HOME SUPPLIES</option>
+            <option value="STATIONARIES">STATIONARIES</option>
+            <option value="FURNITURE">FURNITURE</option>
+            <option value="FOOD/RESTAURANT">FOOD/RESTAURANT</option>
+            <option value="EDUCATION">EDUCATION</option>
+            <option value="HEALTH/FITNESS">HEALTH/FITNESS</option>
+            <option value="STOCK MARKET">STOCK MARKET</option>
+            <option value="PHOTOGRAPHY">PHOTOGRAPHY</option>
+            <option value="LEGAL EXPERTS">LEGAL EXPERTS</option>
+            <option value="ARTIST">ARTIST</option>
+            <option value="EVENT PLANNERS">EVENT PLANNERS</option>
+            <option value="CHOREOGRAPHY">CHOREOGRAPHY</option>
+            <option value="AUTOMOBILE">AUTOMOBILE</option>
+            <option value="TOURISM">TOURISM</option>
+            <option value="SERVICE PROVIDER">SERVICE PROVIDER</option>
+            <option value="SPORTS">SPORTS</option>
         </select>
 
         <label for="companyUserId">Company User ID:</label>
@@ -114,36 +127,18 @@
         <label for="tagPeopleList">Tag People List (Separate with commas):</label>
         <input type="text" name="tagPeopleList" placeholder="e.g., Person1, Person2, Person3">
 
-        <button type="submit">Add Ad</button>
+        <button type="submit">Add Data</button>
     </form>
 
     <script>
-        document.getElementById('addSocialMediaLink').addEventListener('click', function () {
-            const container = document.getElementById('socialMediaLinksContainer');
-            const linkDiv = document.createElement('div');
-            linkDiv.innerHTML = `
-                <input type="text" name="socialMediaLinks" placeholder="Link" required>
-                <label class="checkbox-label">
-                    Image Flag:
-                    <input type="checkbox" class="image-flag-checkbox" name="imageFlag" value="true">
-                </label>
-            `;
-            container.appendChild(linkDiv);
-        });
-
         document.getElementById('addDataForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
+            
             // Prepare the data from the form
             const data = {
                 title: document.getElementsByName('title')[0].value,
                 description: document.getElementsByName('description')[0].value,
-                socialMediaLinks: Array.from(document.getElementsByName('socialMediaLinks')).map(linkInput => {
-                    const link = linkInput.value;
-                    const imageFlagCheckbox = linkInput.parentElement.querySelector('.image-flag-checkbox');
-                    const imageFlag = imageFlagCheckbox.checked;
-                    return { link, imageFlag };
-                }),
+                socialMediaLinks: document.getElementsByName('socialMediaLinks')[0].value.split(',').map(link => link.trim()),
                 category: document.getElementsByName('category')[0].value,
                 companyUserId: document.getElementsByName('companyUserId')[0].value,
                 instaFlag: document.getElementsByName('instaFlag')[0].checked,
@@ -152,7 +147,7 @@
             };
 
             // Make a POST request to your backend
-            fetch('http://100.84.18.148:6060/createAd', {
+            fetch('http://100.84.18.148:6060/createAdd', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -161,13 +156,13 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Ad added:', data);
+                console.log('Data added:', data);
                 // Handle the response from your backend as needed
 
                 // Reload the page after submission (you can customize this behavior)
                 location.reload();
             })
-            .catch (error => {
+            .catch(error => {
                 console.error('Error:', error);
                 // Handle errors here
             });

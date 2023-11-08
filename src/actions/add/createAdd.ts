@@ -24,7 +24,7 @@ router.post("/", async (req: any, res: any) => {
             socialMediaLinks: socialMediaLinks?socialMediaLinks:[],
             category:category,
             companyUserId:companyUserId,
-            approveStatus:false,
+            approveStatus:true,
             createdTime:new Date().getTime(),
             instaFlag:instaFlag,
             ytFlag:ytFlag,

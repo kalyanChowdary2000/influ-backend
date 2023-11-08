@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Display</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #cce5ff;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: white; /* Text color for the title */
+            background-color: #007BFF; /* Background color for the title */
+            padding: 10px; /* Add some padding for better appearance */
+            text-align: center; /* Center-align the text */
+        }
+
+        .logo {
+            width: 30px; /* Adjust the width as needed */
+            height: 30px; /* Adjust the height as needed */
+            vertical-align: middle; /* Vertically align the logo */
+        }
+
+        .logo-container {
+            display: inline-block; /* Make the container inline-block */
+            vertical-align: middle; /* Vertically align the container */
+        }
+
+        body {
+            border: 1px solid #ddd; /* Add a border to the entire page */
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        <div class="logo-container"><img src="../logo.jpg" alt="Logo" class="logo"></div>
+        Beinfluencer Preapproved Adds
+    </h1>
+
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Created Time</th>
+                <th>Company User ID</th>
+                <th>Insta Flag</th>
+                <th>YouTube Flag</th>
+            </tr>
+        </thead>
+        <tbody id="data-body">
+            <!-- Data will be displayed here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to fetch data from your backend API using a POST request
+        async function fetchData() {
+            try {
+                const response = await fetch('http://100.84.18.148:6060/fetchTestAdd', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Specify the content type as needed
+                    },
+                    // You can include any request body data here if required
+                    // body: JSON.stringify({ key: 'value' }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Process and display the data in a table
+                    const dataBody = document.getElementById('data-body');
+                    dataBody.innerHTML = ''; // Clear previous data
+
+                    data.data.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.tittle}</td>
+                            <td>${item.description}</td>
+                            <td>${item.category}</td>
+                            <td>${item.createdTime}</td>
+                            <td>${item.companyUserId}</td>
+                            <td>${item.instaFlag}</td>
+                            <td>${item.ytFlag}</td>
+                            <!-- Add more fields as needed -->
+                        `;
+                        dataBody.appendChild(row);
+                    });
+                } else {
+                    console.error('Failed to fetch data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Call the fetchData function when the page loads
+        fetchData();
+    </script>
+</body>
+</html>

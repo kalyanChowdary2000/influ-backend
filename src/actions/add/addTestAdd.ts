@@ -4,37 +4,33 @@ import { Encrypt } from '../../classes/encrypt';
 import { makeid } from '../../utils/generalFunctions';
 const stringHash = require("string-hash");
 const router = express.Router();
-
-
-
 router.post("/", async (req: any, res: any) => {
     try {
-        console.log("---------->> create add ")
-        const { title,
+        console.log("---------->> create test add ")
+        const { tittle,
             description,
-            socialMediaLinks,
+         //   driveLinks,
             category,
-            companyUserId,
-            instaFlag,ytFlag,tagPeopleList
+            userId,
+            instaFlag,ytFlag
         } = req.body
-        let mongoResponse = await MongoConnection.addAdd({
+        let mongoResponse = await MongoConnection.addTestAdd({
             _id: makeid(6),
-            tittle: title,
+            tittle: tittle,
             description: description,
-            socialMediaLinks: socialMediaLinks?socialMediaLinks:[],
+            active:true,
+            //socialMediaLinks: req.body.driveLinks?req.body.driveLinks:[],
             category:category,
-            companyUserId:companyUserId,
-            approveStatus:false,
+            companyUserId:userId,
+            //approveStatus:false,
             createdTime:new Date().getTime(),
             instaFlag:instaFlag,
-            ytFlag:ytFlag,
-            tagPeopleList:tagPeopleList?tagPeopleList:[]
+            ytFlag:ytFlag
         })
-        console.log("------------- mongo resopnse is ",mongoResponse.success)
         if (mongoResponse.success) {
-            res.send({
+            res.send(await Encrypt.jsonEncrypt({
                 success: true,
-            });
+            }));
         }
         else {
             res.send(await Encrypt.jsonEncrypt({

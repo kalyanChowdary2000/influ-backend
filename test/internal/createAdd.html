@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beinfluencer Create Add</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            background-color: #007BFF; /* Background color for the title bar */
+            color: #fff; /* Text color for the title */
+            padding: 10px; /* Padding for the title bar */
+            margin: 0; /* Remove any default margin */
+            display: flex;
+            justify-content: center; /* Center title horizontally */
+            align-items: center; /* Center title vertically */
+        }
+        #logo {
+            width: 50px; /* Adjust the width as needed */
+            height: 50px; /* Adjust the height as needed */
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+        #addDataForm {
+            background-color: #fff;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            margin-top: 20px; /* Add margin to create a gap */
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        <img id="logo" src="../logo.jpg" alt="Your Logo">
+        Beinfluencer Create Add
+    </h1>
+
+
+    <form id="addDataForm">
+        <label for="title">Title:</label>
+        <input type="text" name="title" required>
+
+        <label for="description">Description:</label>
+        <input type="text" name="description" required>
+
+        <label for="socialMediaLinks">Social Media Links (Separate with commas):</label>
+        <input type="text" name="socialMediaLinks" placeholder="e.g., https://twitter.com, https://facebook.com" required>
+
+        <label for="category">Category:</label>
+        <select name="category">
+            <option value="FASHION">FASHION</option>
+            <option value="GAMING">GAMING</option>
+            <option value="FMCG">FMCG</option>
+            <option value="DEVOTIONAL">DEVOTIONAL</option>
+            <option value="TECH/SOFTWARE">TECH/SOFTWARE</option>
+            <option value="BUILDING MATERIALS">BUILDING MATERIALS</option>
+            <option value="HOME APPLIANCES">HOME APPLIANCES</option>
+            <option value="KIDS WELLBEING">KIDS WELLBEING</option>
+            <option value="FINANCE">FINANCE</option>
+            <option value="BEAUTY PRODUCTS">BEAUTY PRODUCTS</option>
+            <option value="GADGETS">GADGETS</option>
+            <option value="HOME SUPPLIES">HOME SUPPLIES</option>
+            <option value="STATIONARIES">STATIONARIES</option>
+            <option value="FURNITURE">FURNITURE</option>
+            <option value="FOOD/RESTAURANT">FOOD/RESTAURANT</option>
+            <option value="EDUCATION">EDUCATION</option>
+            <option value="HEALTH/FITNESS">HEALTH/FITNESS</option>
+            <option value="STOCK MARKET">STOCK MARKET</option>
+            <option value="PHOTOGRAPHY">PHOTOGRAPHY</option>
+            <option value="LEGAL EXPERTS">LEGAL EXPERTS</option>
+            <option value="ARTIST">ARTIST</option>
+            <option value="EVENT PLANNERS">EVENT PLANNERS</option>
+            <option value="CHOREOGRAPHY">CHOREOGRAPHY</option>
+            <option value="AUTOMOBILE">AUTOMOBILE</option>
+            <option value="TOURISM">TOURISM</option>
+            <option value="SERVICE PROVIDER">SERVICE PROVIDER</option>
+            <option value="SPORTS">SPORTS</option>
+        </select>
+
+        <label for="companyUserId">Company User ID:</label>
+        <input type="text" name="companyUserId" required>
+
+        <label class="checkbox-label">
+            YouTube Flag:
+            <input type="checkbox" name="ytFlag" value="true">
+        </label>
+
+        <label class="checkbox-label">
+            Instagram Flag:
+            <input type="checkbox" name="instaFlag" value="true">
+        </label>
+
+        <label for="tagPeopleList">Tag People List (Separate with commas):</label>
+        <input type="text" name="tagPeopleList" placeholder="e.g., Person1, Person2, Person3">
+
+        <button type="submit">Add Data</button>
+    </form>
+
+    <script>
+        document.getElementById('addDataForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            
+            // Prepare the data from the form
+            const data = {
+                title: document.getElementsByName('title')[0].value,
+                description: document.getElementsByName('description')[0].value,
+                socialMediaLinks: document.getElementsByName('socialMediaLinks')[0].value.split(',').map(link => link.trim()),
+                category: document.getElementsByName('category')[0].value,
+                companyUserId: document.getElementsByName('companyUserId')[0].value,
+                instaFlag: document.getElementsByName('instaFlag')[0].checked,
+                ytFlag: document.getElementsByName('ytFlag')[0].checked,
+                tagPeopleList: document.getElementsByName('tagPeopleList')[0].value.split(',').map(person => person.trim())
+            };
+
+            // Make a POST request to your backend
+            fetch('http://100.84.18.148:6060/createAdd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data added:', data);
+                // Handle the response from your backend as needed
+
+                // Reload the page after submission (you can customize this behavior)
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors here
+            });
+        });
+    </script>
+</body>
+</html>

@@ -18,11 +18,11 @@ const userSchema = new Schema({
     instagram: {},
     youtube: {},
     designaiton: {},
-    accountNumber:{},
-    ifscCode:{},
-    branch:{},
-    bankName:{},
-    accountHolderName:{},
+    accountNumber: {},
+    ifscCode: {},
+    branch: {},
+    bankName: {},
+    accountHolderName: {},
 });
 const transactionSchema = new Schema({
     _id: { type: String, required: true },
@@ -32,7 +32,17 @@ const transactionSchema = new Schema({
 
 
 });
-
+const testAddSchema = new Schema({
+    _id: { type: String, require: true },
+    tittle: { type: String, required: true },
+    description: { type: String, required: true },
+    active:{},
+    createdTime: {},
+    category: {},
+    companyUserId: { type: String, required: true },
+    instaFlag: {},
+    ytFlag: {}
+});
 const addSchema = new Schema({
     _id: { type: String, require: true },
     tittle: { type: String, required: true },
@@ -41,6 +51,7 @@ const addSchema = new Schema({
     createdTime: {},
     category: {},
     status: {},
+    tagPeopleList:{},
     approveStatus: {},
     companyUserId: { type: String, required: true },
     influencersList: {},
@@ -50,17 +61,17 @@ const addSchema = new Schema({
 const comAddSchema = new Schema({
     _id: { type: String, require: true },
     addId: { type: String, require: true },
-    addData:{},
-    active:{type:Boolean,require:true},
-    influId:{ type: String, require: true },
-    instaFlag:{type:Boolean,require:true},
-    ytFlag:{type:Boolean,require:true},
-    ytPostLink:{type:String,require:true},
-    instaPostLink:{type:String,require:true},
-    instagram:{},
-    youtube:{},
-    instaData:{},
-    ytData:{}
+    addData: {},
+    active: { type: Boolean, require: true },
+    influId: { type: String, require: true },
+    instaFlag: { type: Boolean, require: true },
+    ytFlag: { type: Boolean, require: true },
+    ytPostLink: { type: String, require: true },
+    instaPostLink: { type: String, require: true },
+    instagram: {},
+    youtube: {},
+    instaData: {},
+    ytData: {}
 });
 const instagraSchema = new Schema({
     _id: { type: String, require: true },
@@ -89,11 +100,12 @@ const youtubeSchema = new Schema({
 
 const contactSchema = new Schema({
     _id: { type: String, require: true },
-    queryTittle:{ type: String, require: true },
-    queryContent:{ type: String, require: true },
-    contactDetails:{ type: String, require: true },
-    active:{}
+    queryTittle: { type: String, require: true },
+    queryContent: { type: String, require: true },
+    contactDetails: { type: String, require: true },
+    active: {}
 });
+
 
 
 const User = model('User', userSchema);
@@ -101,8 +113,9 @@ const Instagram = model('Instagram', instagraSchema);
 const Youtube = model("Youtube", youtubeSchema);
 const Add = model('Add', addSchema);
 const Transaction = model('Transaction', transactionSchema);
-const ComAdd=model('ComAdd',comAddSchema);
-const Contact=model('Contact',contactSchema);
+const ComAdd = model('ComAdd', comAddSchema);
+const Contact = model('Contact', contactSchema);
+const TestAdd = model('TestAdd', testAddSchema);
 
 
 
@@ -234,13 +247,27 @@ export class MongoConnection {
         }
 
     }
+    static async fetchTestAdd(data: any) {
+        try {
+            console.log(data);
+            let add = await TestAdd.find(data);
+            return { success: true, data: add };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
+    }
     static async updateAdd(find: any, update: any) {
         try {
 
             console.log(find, update)
             console.log("-------------------- find -------------  update")
             await Add.findOneAndUpdate(find, update);
-           return true ;
+            return true;
         }
         catch (e: any) {
             console.log(e);
@@ -397,7 +424,7 @@ export class MongoConnection {
     }
     static async fetchAllComAdd() {
         try {
-           // console.log(data);
+            // console.log(data);
             let add = await ComAdd.find({});
             return { success: true, data: add };
         } catch (e: any) {
@@ -424,8 +451,20 @@ export class MongoConnection {
         }
     }
 
-
-    static async addContact(data:any){
+    static async addTestAdd(data: any) {
+        try {
+            console.log(data);
+            let testAdd = new TestAdd(data);
+            await testAdd.save();
+            return { success: true }
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false
+            }
+        }
+    }
+    static async addContact(data: any) {
         try {
             console.log(data);
             let contact = new Contact(data);

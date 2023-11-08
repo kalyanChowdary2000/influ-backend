@@ -34,6 +34,8 @@ import addYoutube from './actions/youtube/addYoutube';
 import fetchRunningAdds from './actions/add/fetchRunningAdds';
 import deleteUser from './actions/login/deleteUser';
 import addContactUs from './actions/general/contactUs';
+import addTestAdd from './actions/add/addTestAdd';
+import fetchTestAdd from './actions/add/fetchTestAdd';
 
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
@@ -68,7 +70,7 @@ export class MainServer {
     }
     async start() {
         MainServer.app.get('/', (req: any, res: any) => {
-            res.send('<marquee><h1>Kalyan</h1></marquee>');
+            res.send('<marquee><h1>Azhana</h1></marquee>');
         })
         MainServer.app.use('/signIn', signUp);
         MainServer.app.use('/login', login);
@@ -96,6 +98,8 @@ export class MainServer {
         MainServer.app.use('/fetchRunningAdds',fetchRunningAdds);
         MainServer.app.use('/deleteUser',deleteUser);
         MainServer.app.use('/addContactUs',addContactUs);
+        MainServer.app.use('/addTestAdd',addTestAdd);
+        MainServer.app.use('/fetchTestAdd',fetchTestAdd);
     }
 }
 

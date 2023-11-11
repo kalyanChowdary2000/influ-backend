@@ -5,6 +5,7 @@ import { TokenHandler } from '../../classes/tokenManagement';
 import { MongoConnection } from '../../classes/mongo';
 import { makeid } from '../../utils/generalFunctions';
 import { RunningStatus } from '../../classes/runningStatus';
+import { Config } from '../../config/credentials';
 const { ObjectId } = require('mongodb');
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router.post("/", async (req: any, res: any) => {
         if (userData.data.length != 0) {
             console.log(userData);
             if (userData.data.youtube && addData.data[0].ytFlag) {
-                ytAxiosResponse = await axios.post('http://127.0.0.1:6061/get_latest_yt_video_info', {
+                ytAxiosResponse = await axios.post(`${Config.pythonUrl}/get_latest_yt_video_info`, {
                     channelId: userData.data.youtube,
                     developerKey: "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
                 })
@@ -37,7 +38,7 @@ router.post("/", async (req: any, res: any) => {
                 }
             }
             if (userData.data.instagram && addData.data[0].instaFlag) {
-                instaAxiosResponse = await axios.post('http://127.0.0.1:6061/get_latest_insta_post_info', {
+                instaAxiosResponse = await axios.post(`${Config.pythonUrl}/get_latest_insta_post_info`, {
                     username: userData.data.instagram,
                 })
                 console.log("instagram data ", instaAxiosResponse.data);

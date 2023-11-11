@@ -5,7 +5,17 @@ import { TokenHandler } from '../../classes/tokenManagement';
 const router = express.Router();
 router.post("/", async (req: any, res: any) => {
     try {
-        let mongoResponse = await MongoConnection.findAllUsers();
+
+        let mongoResponse:any ;
+        if(req.body.maleFlag && req.body.femaleFlag){
+        mongoResponse=await MongoConnection.findAllUsers();
+        }
+        else if(req.body.maleFlag){
+            mongoResponse=await MongoConnection.findUser({gender:"male"});
+        }else if(req.body.femaleFlag){
+            console.log("--------------------------------")
+            mongoResponse=await MongoConnection.findUser({gender:"female"});
+        }
         let userData: any = mongoResponse.data;
         console.log(userData, req.body.category)
         let instagramInfluencerCount = 0;
@@ -17,18 +27,18 @@ router.post("/", async (req: any, res: any) => {
         for (let i = 0; i < userData.length; i++) {
             let categoryList = userData[i].category;
             for (let j = 0; j < categoryList.length; j++) {
-                console.log(categoryList[j], req.body.category);
+                //console.log(categoryList[j], req.body.category);
                 if (categoryList[j] == req.body.category) {
                     if (userData[i].instagram != '' && req.body.instaFlag) {
                         let igData:any = await MongoConnection.fetchInstagram(userData[i].instagram)
-                        console.log('ig Data is ', igData,igData.data.followerCount);
+                        //console.log('ig Data is ', igData,igData.data.followerCount);
                         instagramFollowerCount=instagramFollowerCount+igData.data.followerCount;
                         instagramEr=igData.data.engagementRate;
                         instagramInfluencerCount++;
                     }
                     if(userData[i].youtube!="" && req.body.ytFlag){
                         let ytData:any = await MongoConnection.fetchYoutube(userData[i].youtube)
-                        console.log('ytData  is ', ytData,ytData.data.followerCount);
+                        //console.log('ytData  is ', ytData,ytData.data.followerCount);
                         youtubeFollowerCount=youtubeFollowerCount+parseInt(ytData.data.followerCount);
                         youtubeEr=ytData.data.engagementRate;
                         youtubeInfluencerCount++;

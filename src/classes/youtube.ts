@@ -1,10 +1,11 @@
 import axios from "axios";
 import { MongoConnection } from "./mongo";
+import { Config } from "../config/credentials";
 
 export class Youtube {
     static async createItem(channelId: string, userId: string) {
         console.log("youtube create Item", channelId, userId)
-        let axiosResponse = await axios.post('http://127.0.0.1:6061/get_yt_engagement_rate', {
+        let axiosResponse = await axios.post(`${Config.pythonUrl}/get_yt_engagement_rate`, {
             channelId: channelId,
             developerKey: "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
         })
@@ -36,7 +37,7 @@ export class Youtube {
                 for (let i = 0; i < userData.length; i++) {
                     try {
                         let channelId = userData[i].youtube;
-                        let axiosResponse = await axios.post('http://127.0.0.1:6061/get_yt_engagement_rate', {
+                        let axiosResponse = await axios.post(`${Config.pythonUrl}/get_yt_engagement_rate`, {
                             channelId: channelId,
                             developerKey: "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
                         });

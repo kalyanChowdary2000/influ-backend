@@ -55,7 +55,18 @@ def get_engagement_rate():
     except Exception as e:
         return jsonify({'error': f'Error fetching profile: {str(e)}'}), 400
     posts = profile.get_posts()
-    postLimit=round(profile.mediacount*0.1)
+    print("--------------------",profile.mediacount)
+    if(profile.mediacount==0):
+        response_data = {
+        'username': username,
+        'engagement_rate': 0,
+        'followers_count':profile.followers
+        }
+        return jsonify(response_data)
+    if(profile.mediacount>0 and profile.mediacount<10):
+        postLimit=profile.mediacount
+    else:
+        postLimit=round(profile.mediacount*0.1)
     c=0
     p=0
     l=0

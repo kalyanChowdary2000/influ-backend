@@ -1,10 +1,11 @@
 import axios from "axios";
 import { MongoConnection } from "./mongo";
+import { Config } from "../config/credentials";
 
 export class Instagram {
     static async createItem(instagramId: string, userId: string) {
         console.log("instagram create Item", instagramId, userId)
-        let axiosResponse = await axios.post('http://127.0.0.1:6061/get_engagement_rate', {
+        let axiosResponse = await axios.post(`${Config.pythonUrl}/get_engagement_rate`, {
             username: instagramId
         })
         console.log(axiosResponse.data)
@@ -33,7 +34,7 @@ export class Instagram {
                 for (let i = 0; i < userData.length; i++) {
                     try {
                         let instagramId = userData[i].instagram;
-                        let axiosResponse = await axios.post('http://127.0.0.1:6061/get_engagement_rate', {
+                        let axiosResponse = await axios.post(`${Config.pythonUrl}/get_engagement_rate`, {
                             username: instagramId
                         })
                         console.log(axiosResponse.data)

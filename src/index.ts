@@ -36,7 +36,8 @@ import deleteUser from './actions/login/deleteUser';
 import addContactUs from './actions/general/contactUs';
 import addTestAdd from './actions/add/addTestAdd';
 import fetchTestAdd from './actions/add/fetchTestAdd';
-
+import fetchWallet from './actions/transaction/fetchWallet';
+import fetchTransaction from './actions/transaction/fetchTransactions'
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -100,6 +101,8 @@ export class MainServer {
         MainServer.app.use('/addContactUs',addContactUs);
         MainServer.app.use('/addTestAdd',addTestAdd);
         MainServer.app.use('/fetchTestAdd',fetchTestAdd);
+        MainServer.app.use('/fetchWallet',fetchWallet);
+        MainServer.app.use('/fetchTransaction',fetchTransaction);
     }
 }
 

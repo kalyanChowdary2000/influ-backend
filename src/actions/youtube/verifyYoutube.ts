@@ -2,6 +2,7 @@ import express from 'express';
 import { Encrypt } from '../../classes/encrypt';
 import axios from 'axios';
 import https from 'https';
+import { Config } from '../../config/credentials';
 const router = express.Router();
 
 router.post("/", async (req: any, res: any) => {
@@ -15,7 +16,7 @@ router.post("/", async (req: any, res: any) => {
         let channelId=arr[1].slice(0, 24)
         //console.log("channel Id is")
         console.log("Channel ID:",channelId );
-        let axiosResponse=await axios.post('http://127.0.0.1:6061/get_youtube_bio',{
+        let axiosResponse=await axios.post(`${Config.pythonUrl}/get_youtube_bio`,{
             channelId:channelId,
             developerKey:"AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
         })

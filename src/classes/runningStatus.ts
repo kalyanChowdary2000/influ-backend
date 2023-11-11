@@ -1,5 +1,6 @@
 import axios from "axios";
 import { MongoConnection } from "./mongo";
+import { Config } from "../config/credentials";
 
 export class RunningStatus {
 
@@ -16,7 +17,7 @@ export class RunningStatus {
                     if (comAddData[i].instaFlag) {
                         try {
                             console.log(comAddData[i].instagram, comAddData[i].instaPostLink)
-                            instaAxiosResponse = await axios.post('http://127.0.0.1:6061/get_instagram_post_metrics', {
+                            instaAxiosResponse = await axios.post(`${Config.pythonUrl}/get_instagram_post_metrics`, {
                                 "username": comAddData[i].instagram,
                                 "shortcode": comAddData[i].instaPostLink
                             })
@@ -29,7 +30,7 @@ export class RunningStatus {
                     if (comAddData[i].ytFlag) {
                         console.log(comAddData[i].youtube, comAddData[i].ytPostLink);
                         try {
-                            ytAxiosResponse = await axios.post('http://127.0.0.1:6061/get_youtube_video_metrics', {
+                            ytAxiosResponse = await axios.post(`${Config.pythonUrl}/get_youtube_video_metrics`, {
                                 "videoId": comAddData[i].ytPostLink,
                                 "developerKey": "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
                             })
@@ -58,7 +59,7 @@ export class RunningStatus {
                     if (comAddData[i].instaFlag) {
                         try {
                             console.log(comAddData[i].instagram, comAddData[i].instaPostLink)
-                            instaAxiosResponse = await axios.post('http://127.0.0.1:6061/get_instagram_post_metrics', {
+                            instaAxiosResponse = await axios.post(`${Config.pythonUrl}/get_instagram_post_metrics`, {
                                 "username": comAddData[i].instagram,
                                 "shortcode": comAddData[i].instaPostLink
                             })
@@ -71,7 +72,7 @@ export class RunningStatus {
                     if (comAddData[i].ytFlag) {
                         console.log(comAddData[i].youtube, comAddData[i].ytPostLink);
                         try {
-                            ytAxiosResponse = await axios.post('http://127.0.0.1:6061/get_youtube_video_metrics', {
+                            ytAxiosResponse = await axios.post(`${Config.pythonUrl}/get_youtube_video_metrics`, {
                                 "videoId": comAddData[i].ytPostLink,
                                 "developerKey": "AIzaSyDpX8JwD0z73piVfiTYYq-g0a6LvFqBMVs"
                             })

@@ -8,6 +8,7 @@ const userSchema = new Schema({
     email: { type: String, required: true },
     role: { type: String, required: true },
     password: { type: String, required: true },
+    walletMoney: {},
     gender: { type: String },
     dob: { type: String },
     city: { type: String },
@@ -29,14 +30,19 @@ const transactionSchema = new Schema({
     amount: { type: String, required: true },
     userId: { type: String, required: true },
     createTime: { type: String, required: true },
-
-
+    isDeposit: { type: Boolean, required: true },
+    status: { type: Boolean, required: true },
+    accountHolderName: { type: String },   // Added field
+    accountNumber: { type: String },       // Added field
+    ifscCode: { type: String },            // Added field
+    branch: { type: String },              // Added field
+    bankName: { type: String },   
 });
 const testAddSchema = new Schema({
     _id: { type: String, require: true },
     tittle: { type: String, required: true },
     description: { type: String, required: true },
-    active:{},
+    active: {},
     createdTime: {},
     category: {},
     companyUserId: { type: String, required: true },
@@ -51,7 +57,7 @@ const addSchema = new Schema({
     createdTime: {},
     category: {},
     status: {},
-    tagPeopleList:{},
+    tagPeopleList: {},
     approveStatus: {},
     companyUserId: { type: String, required: true },
     influencersList: {},
@@ -105,7 +111,6 @@ const contactSchema = new Schema({
     contactDetails: { type: String, require: true },
     active: {}
 });
-
 
 
 const User = model('User', userSchema);
@@ -172,6 +177,20 @@ export class MongoConnection {
                 error: e.toString()
             }
         }
+    }
+    static async fetchTransaction(data: any) {
+        try {
+            console.log(data);
+            let add = await Transaction.find(data);
+            return { success: true, data: add };
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+
     }
     static async editUser(find: any, update: any) {
         try {

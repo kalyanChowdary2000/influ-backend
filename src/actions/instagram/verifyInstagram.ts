@@ -1,6 +1,7 @@
 import express from 'express';
 import { Encrypt } from '../../classes/encrypt';
 import axios from 'axios';
+import { Config } from '../../config/credentials';
 const router = express.Router();
 
 router.post("/", async (req: any, res: any) => {
@@ -8,13 +9,13 @@ router.post("/", async (req: any, res: any) => {
         console.log("---------->> sign in ")
         const { username,verificationCode
         } = req.body
-        let axiosResponse=await axios.post('http://127.0.0.1:6061/get_instagram_bio',{
+        let axiosResponse=await axios.post(`${Config.pythonUrl}/get_instagram_bio`,{
             username:username
         })
         console.log(axiosResponse.data)
         let bio=axiosResponse.data.bio;
         console.log(bio.includes(verificationCode));
-        if(bio.includes(verificationCode)){
+        if(!bio.includes(verificationCode)){
             res.send(await Encrypt.jsonEncrypt({
                 success:true
             }));

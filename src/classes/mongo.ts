@@ -313,8 +313,8 @@ export class MongoConnection {
     }
     static async fetchInstagram(instagramId: any) {
         try {
-            console.log(instagramId);
-            let instagramData = await Instagram.findById(instagramId);
+            console.log(instagramId.trim());
+            let instagramData = await Instagram.findById(instagramId.trim());
             return { success: true, data: instagramData };
         } catch (e: any) {
             console.log(e);

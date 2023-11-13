@@ -27,4 +27,6 @@ export class Config{
         },
     }
     static pythonUrl="http://100.114.240.112:6061"
+    //static pythonUrl="http://127.0.0.1:6061"
+
 }

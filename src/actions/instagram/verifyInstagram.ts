@@ -10,7 +10,7 @@ router.post("/", async (req: any, res: any) => {
         const { username,verificationCode
         } = req.body
         let axiosResponse=await axios.post(`${Config.pythonUrl}/get_instagram_bio`,{
-            username:username
+            username:username.trim()
         })
         console.log(axiosResponse.data)
         let bio=axiosResponse.data.bio;

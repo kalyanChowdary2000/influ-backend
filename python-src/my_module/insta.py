@@ -132,6 +132,13 @@ def get_yt_engagement_rate():
         allUploadedVideosPlaylist =  ch_response["items"][0]['contentDetails']['relatedPlaylists']['uploads']
         videos = [ ]
         print("---------------------------------------------------------- video count ",ch_response['items'][0]['statistics']['videoCount'])
+        if(int(ch_response['items'][0]['statistics']['videoCount'])==0):
+             response_data = {
+             "engagementRate":0,
+             "subscriberCount":0,
+             "customUrl":ch_response['items'][0]['snippet']['customUrl']
+             };
+             return jsonify(response_data)
         postCount=round(int(ch_response['items'][0]['statistics']['videoCount'])*0.1)
         if(int(ch_response['items'][0]['statistics']['videoCount'])<10 and int(ch_response['items'][0]['statistics']['videoCount'])>0):
             postCount=1
@@ -343,4 +350,4 @@ def get_youtube_video_metrics():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=6061)
+    app.run(debug=True,host='0.0.0.0', port=6061)

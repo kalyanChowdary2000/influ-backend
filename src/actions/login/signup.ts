@@ -19,18 +19,19 @@ router.post("/", async (req: any, res: any) => {
             gender
         } = req.body
         if (instagram != "") {
-            await Instagram.createItem(instagram, phone);
+            await Instagram.createItem(instagram.trim(), phone);
         }
-         if(youtube!="") {
-            await Youtube.createItem(youtube, phone)
+        if (youtube != "") {
+            await Youtube.createItem(youtube.trim(), phone)
         }
         let mongoResponse = await MongoConnection.addUser({
             _id: phone,
             name: name,
             email: email,
             password: stringHash(password),
+            walletMoney: 0,
             role: "influ",
-            instagram: instagram,
+            instagram: instagram.trim(),
             youtube: youtube,
             dob: dob,
             gender: gender,
@@ -46,10 +47,10 @@ router.post("/", async (req: any, res: any) => {
                 email: email,
                 password: stringHash(password),
                 role: "influ",
-                instagram: instagram,
+                instagram: instagram.trim(),
                 youtube: youtube,
                 dob: dob,
-                
+                walletMoney: 0,
                 gender: gender,
                 imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
             });
@@ -59,10 +60,10 @@ router.post("/", async (req: any, res: any) => {
                     _id: phone,
                     name: name,
                     email: email,
-                    instagram: instagram,
+                    instagram: instagram.trim(),
                     youtube: youtube,
                     dob: dob,
-                   
+                    walletMoney: 0,
                     gender: gender,
                     imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
                 },

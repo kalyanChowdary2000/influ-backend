@@ -9,7 +9,7 @@ router.post("/", async (req: any, res: any) => {
         const { token
         } = req.body
         let userData=await TokenHandler.fetchToken(token);
-        console.log(userData);
+        //console.log(userData);
         let mongoResponse = await MongoConnection.fetchInstagram(userData.data.instagram);
         console.log(mongoResponse)
         if (mongoResponse.success) {

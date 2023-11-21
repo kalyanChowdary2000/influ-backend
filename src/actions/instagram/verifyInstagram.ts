@@ -15,7 +15,7 @@ router.post("/", async (req: any, res: any) => {
         console.log(axiosResponse.data)
         let bio=axiosResponse.data.bio;
         console.log(bio.includes(verificationCode));
-        if(!bio.includes(verificationCode)){
+        if(bio.includes(verificationCode)){
             res.send(await Encrypt.jsonEncrypt({
                 success:true
             }));

@@ -14,12 +14,15 @@ router.post("/", async (req: any, res: any) => {
             let mongoResponse = await MongoConnection.fetchAdd({ companyUserId: userData.data["_id"] });
             // console.log("------------------ adds data",mongoResponse)
             let addsData: any = mongoResponse.data;
-            let runningAddsList: any=[];
+            let runningAddsList: any = [];
             for (let i = 0; i < addsData?.length; i++) {
                 if (addsData[i].approveStatus) {
-                    let mongoResponse:any = await MongoConnection.fetchComAdd({ addId: addsData[i]["_id"] });
+                    let mongoResponse: any = await MongoConnection.fetchComAdd({ addId: addsData[i]["_id"] });
                     console.log(addsData[i]["_id"], mongoResponse.data[0]);
-                    runningAddsList.push(mongoResponse.data[0]);
+                    if (mongoResponse.data[0]) {
+                        console.log("******************");
+                        runningAddsList.push(mongoResponse.data[0]);
+                    }
                 }
             }
 

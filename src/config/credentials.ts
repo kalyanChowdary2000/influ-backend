@@ -1,6 +1,6 @@
 export class Config{
     static mongo = {
-        url: 'mongodb+srv://kalyan:kalyan@cluster0.gk2rqbh.mongodb.net/image',
+        url: 'mongodb+srv://kalyan:kalyan@cluster0.gk2rqbh.mongodb.net/prod',
     };
     static redis = {
         // url:'redis://xozone_redis:6379',

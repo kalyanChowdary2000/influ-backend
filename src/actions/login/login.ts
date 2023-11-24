@@ -6,7 +6,7 @@ const stringHash = require("string-hash");
 const router = express.Router();
 router.post("/", async (req: any, res: any) => {
     try {
-        console.log("---------->> sign in ")
+        console.log("---------->>login ")
         const { phone,
             password } = req.body
 
@@ -14,7 +14,7 @@ router.post("/", async (req: any, res: any) => {
             _id: phone,
             password: stringHash(password)
         })
-
+        console.log(mongoResponse);
         if (mongoResponse.success && mongoResponse.data.length > 0) {
             let token = await TokenHandler.generateToken(mongoResponse.data[0]);
             console.log(mongoResponse.data[0], "mongo response is a",token);

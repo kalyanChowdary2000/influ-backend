@@ -38,6 +38,8 @@ import addTestAdd from './actions/add/addTestAdd';
 import fetchTestAdd from './actions/add/fetchTestAdd';
 import fetchWallet from './actions/transaction/fetchWallet';
 import fetchTransaction from './actions/transaction/fetchTransactions'
+import changePassword from './actions/login/changePassword';
+import decrypt from './actions/transaction/decrypt'
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -70,6 +72,7 @@ export class MainServer {
         await this.start();
     }
     async start() {
+       
         MainServer.app.get('/', (req: any, res: any) => {
             res.send('<marquee><h1>Azhana</h1></marquee>');
         })
@@ -77,32 +80,34 @@ export class MainServer {
         MainServer.app.use('/login', login);
         MainServer.app.use('/verifyInstagram', verifyInstagram);
         MainServer.app.use('/storeProfile', storeImage);
-        MainServer.app.use('/createAdd',createAdd);
-        MainServer.app.use('/fetchInstagram',fetchInstagram);
-        MainServer.app.use('/verifyYoutube',verifyYoutube);
-        MainServer.app.use('/fetchYoutube',fetchYoutube);
-        MainServer.app.use('/fetchAllInstagram',fetchAllInstagram);
-        MainServer.app.use('/fetchAllYoutube',fetchAllYoutube);
+        MainServer.app.use('/createAdd', createAdd);
+        MainServer.app.use('/fetchInstagram', fetchInstagram);
+        MainServer.app.use('/verifyYoutube', verifyYoutube);
+        MainServer.app.use('/fetchYoutube', fetchYoutube);
+        MainServer.app.use('/fetchAllInstagram', fetchAllInstagram);
+        MainServer.app.use('/fetchAllYoutube', fetchAllYoutube);
         MainServer.app.use('/editUser', editUser);
-        MainServer.app.use('/categoryInfluencers',categoryInfluencers);
-        MainServer.app.use('/encrypt',encrypt);
-        MainServer.app.use('/addTransaction',addTransaction);
-        MainServer.app.use('/companySignIn',companySignIn);
-        MainServer.app.use('/fetchAdd',fetchAdd);
-        MainServer.app.use('/uploadMedia',uploadMedia);
-        MainServer.app.use('/testAdd',testAdd);
-        MainServer.app.use('/fetchInfluAdd',fetchInfluAdd);
-        MainServer.app.use('/verifyAdd',verifyAdd);
-        MainServer.app.use('/fetchComAdd',fetchComAdd);
-        MainServer.app.use('/addInstagram',addInstagram);
-        MainServer.app.use('/addYoutube',addYoutube);
-        MainServer.app.use('/fetchRunningAdds',fetchRunningAdds);
-        MainServer.app.use('/deleteUser',deleteUser);
-        MainServer.app.use('/addContactUs',addContactUs);
-        MainServer.app.use('/addTestAdd',addTestAdd);
-        MainServer.app.use('/fetchTestAdd',fetchTestAdd);
-        MainServer.app.use('/fetchWallet',fetchWallet);
-        MainServer.app.use('/fetchTransaction',fetchTransaction);
+        MainServer.app.use('/categoryInfluencers', categoryInfluencers);
+        MainServer.app.use('/encrypt', encrypt);
+        MainServer.app.use('/addTransaction', addTransaction);
+        MainServer.app.use('/companySignIn', companySignIn);
+        MainServer.app.use('/fetchAdd', fetchAdd);
+        MainServer.app.use('/uploadMedia', uploadMedia);
+        MainServer.app.use('/testAdd', testAdd);
+        MainServer.app.use('/fetchInfluAdd', fetchInfluAdd);
+        MainServer.app.use('/verifyAdd', verifyAdd);
+        MainServer.app.use('/fetchComAdd', fetchComAdd);
+        MainServer.app.use('/addInstagram', addInstagram);
+        MainServer.app.use('/addYoutube', addYoutube);
+        MainServer.app.use('/fetchRunningAdds', fetchRunningAdds);
+        MainServer.app.use('/deleteUser', deleteUser);
+        MainServer.app.use('/addContactUs', addContactUs);
+        MainServer.app.use('/addTestAdd', addTestAdd);
+        MainServer.app.use('/fetchTestAdd', fetchTestAdd);
+        MainServer.app.use('/fetchWallet', fetchWallet);
+        MainServer.app.use('/fetchTransaction', fetchTransaction);
+        MainServer.app.use('/changePassword',changePassword);
+        MainServer.app.use('/decrypt',decrypt);
     }
 }
 

@@ -10,7 +10,7 @@ const ccavenue = new Configure({
     merchant_id: Config.ccavenurCred.prod.merchant_id,
     working_key: Config.ccavenurCred.prod.working_key
 })
-router.post("/", async (req: any, res: any) => {
+router.get("/", async (req: any, res: any) => {
     try {
         try {
             console.log(req.body["encResp"])

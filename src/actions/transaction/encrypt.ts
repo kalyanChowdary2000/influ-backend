@@ -15,7 +15,7 @@ router.post("/", async (req: any, res: any) => {
         console.log("---------->> encrypt data ")
         const { name,_id,email } = req.body
 
-        let returnUrl = "http://15.206.1.214:6060/decrypt";
+        let returnUrl = "https://khwajamerekhwaja.com:8082/decrypt";
         let isTesting = req.body.isTesting ? req.body.isTesting : false;
         let order_id = makeid(9);
         let encryptedData = ccavenue.getEncryptedOrder({

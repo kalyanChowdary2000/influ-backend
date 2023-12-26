@@ -39,7 +39,9 @@ import fetchTestAdd from './actions/add/fetchTestAdd';
 import fetchWallet from './actions/transaction/fetchWallet';
 import fetchTransaction from './actions/transaction/fetchTransactions'
 import changePassword from './actions/login/changePassword';
-import decrypt from './actions/transaction/decrypt'
+import decrypt from './actions/transaction/decrypt';
+import paymentFlag from './actions/login/paymentFlag';
+
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -108,6 +110,7 @@ export class MainServer {
         MainServer.app.use('/fetchTransaction', fetchTransaction);
         MainServer.app.use('/changePassword',changePassword);
         MainServer.app.use('/decrypt',decrypt);
+        MainServer.app.use('/paymentFlag',paymentFlag);
     }
 }
 

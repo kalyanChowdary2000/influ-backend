@@ -222,6 +222,21 @@ export class MongoConnection {
             }
         }
     }
+    static async findUserById(id: any) {
+        try {
+            let res = await User.findById(id);
+            return {
+                success: true,
+                data: res
+            }
+        } catch (e: any) {
+            console.log(e);
+            return {
+                success: false,
+                error: e.toString()
+            }
+        }
+    }
     static async findAllUsers() {
         try {
             let res = await User.find({ role: "influ" });

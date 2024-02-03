@@ -6,10 +6,10 @@ const stringHash = require("string-hash");
 const router = express.Router();
 router.post("/", async (req: any, res: any) => {
     try {
-        console.log("---------->> change Password")
+        console.log("---------->> payment verifications")
         const { token } = req.body
         let userData: any = await TokenHandler.fetchToken(token);
-        //console.log("user data is ---->",userData);
+        console.log("user data is ---->",userData);
         if (userData.data.length != 0) {
             //console.log(stringHash(req.body.password));
             let response: any = await MongoConnection.findUser({

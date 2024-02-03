@@ -32,7 +32,8 @@ router.post("/", async (req: any, res: any) => {
                 "billing_zip": 123456,
                 "billing_country": "India",
                 "billing_tel": userData.data._id,
-                "billing_email": userData.data.email ? userData.data.email : "azhanatechnologies@gmail.com",
+                "billing_email": "azhanatech@gmail.com",
+               // userData.data.email ? userData.data.email : "azhanatechnologies@gmail.com",
                 "redirect_url": returnUrl,
                 "cancel_url": returnUrl
             })

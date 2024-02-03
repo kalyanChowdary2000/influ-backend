@@ -9,6 +9,7 @@ const userSchema = new Schema({
     role: { type: String, required: true },
     password: { type: String, required: true },
     walletMoney: {},
+    active:{type:Boolean,required:true},
     gender: { type: String },
     dob: { type: String },
     city: { type: String },

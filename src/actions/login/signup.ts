@@ -31,6 +31,7 @@ router.post("/", async (req: any, res: any) => {
             password: stringHash(password),
             walletMoney: 0,
             role: "influ",
+            active:false,
             instagram: instagram.trim(),
             youtube: youtube,
             dob: dob,

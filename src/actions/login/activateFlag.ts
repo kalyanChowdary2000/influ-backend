@@ -1,0 +1,45 @@
+import express from 'express';
+import { MongoConnection } from '../../classes/mongo';
+import { mongo } from 'mongoose';
+import { TokenHandler } from '../../classes/tokenManagement';
+import { Encrypt } from '../../classes/encrypt';
+const stringHash = require("string-hash");
+const router = express.Router();
+router.post("/", async (req: any, res: any) => {
+    try {
+        console.log("---------->> edit user")
+        const { token } = req.body
+        let userData: any = await TokenHandler.fetchToken(token);
+        //console.log("user data is ---->",userData);
+        if (userData.data.length != 0) {
+            let response:any = await MongoConnection.editUser(
+                userData.data._id,
+                {active:true}
+            );
+            console.log("updated data is", response)
+            await TokenHandler.updateToken(req.body.token, response);
+            if (response) {
+                res.send(await Encrypt.jsonEncrypt({
+                    success: true,
+                    data:response
+                }));
+            } else {
+                res.send(await Encrypt.jsonEncrypt({
+                    success: false,
+                }));
+            }
+        } else {
+            res.send(await Encrypt.jsonEncrypt({
+                success: false,
+                message: "tokenvalidation failed",
+            }));
+        }
+    } catch (e: any) {
+        console.log(e);
+        res.status(400).send(await Encrypt.jsonEncrypt({
+            success: false,
+            message: `This is an error! ${e}`
+        }));
+    }
+})
+export default router; 

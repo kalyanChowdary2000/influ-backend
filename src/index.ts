@@ -42,7 +42,8 @@ import changePassword from './actions/login/changePassword';
 import decrypt from './actions/transaction/decrypt';
 import paymentFlag from './actions/login/paymentFlag';
 import forgotPassword from './actions/login/forgotPassword';
-
+import paymentFlagVerification from './actions/login/paymentFlagVerificaiton'
+import activateFlag from './actions/login/activateFlag';
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -113,6 +114,8 @@ export class MainServer {
         MainServer.app.use('/forgotPassword',forgotPassword);
         MainServer.app.use('/decrypt',decrypt);
         MainServer.app.use('/paymentFlag',paymentFlag);
+        MainServer.app.use('/paymentFlagVerification',paymentFlagVerification);
+        MainServer.app.use('/activateFlag',activateFlag);
     }
 }
 

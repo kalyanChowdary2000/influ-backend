@@ -9,7 +9,7 @@ router.post("/", async (req: any, res: any) => {
         console.log("---------->>payment Falg ")
         const { } = req.body
         res.status(200).send(await Encrypt.jsonEncrypt({
-            success: true,
+            success: false,
         }));
     } catch (e: any) {
         res.status(400).send(await Encrypt.jsonEncrypt({

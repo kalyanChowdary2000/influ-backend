@@ -10,7 +10,7 @@ export default class RedisConnector {
             url: url,
             password: password
         };
-        //RedisConnector.connection = createClient(redisClientOpts);
+        RedisConnector.connection = createClient(redisClientOpts);
         RedisConnector.connection = createClient();
         await RedisConnector.connection.connect();
     }

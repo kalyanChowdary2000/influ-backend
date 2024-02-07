@@ -1,7 +1,6 @@
 import axios from "axios";
 import { MongoConnection } from "./mongo";
 import { Config } from "../config/credentials";
-import { set } from "mongoose";
 
 export class Instagram {
     static async createItem(instagramId: string, userId: string) {
@@ -33,7 +32,7 @@ export class Instagram {
     static async updateInstagramData() {
         try {
             console.log("updating instagram after 30 min from now ", new Date().toLocaleDateString(), new Date().toLocaleTimeString());
-            setTimeout(async () => {
+            setInterval(async () => {
                 let data: any = await MongoConnection.findAllUsers();
                 let userData = data.data
                 for (let i = 0; i < userData.length; i++) {
@@ -56,7 +55,7 @@ export class Instagram {
                         console.log(e);
                     }
                 }
-            }, 1000 );
+            }, 1000 * 60 * 60*2);
         } catch (e: any) {
             console.log(e)
         }

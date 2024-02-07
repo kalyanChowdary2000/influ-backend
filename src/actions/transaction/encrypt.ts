@@ -24,7 +24,7 @@ router.post("/", async (req: any, res: any) => {
                 //  "merchant_id": "2566643",
                 "order_id": order_id,
                 "currency": 'INR',
-                "amount": 1,
+                "amount": 499,
                 "billing_name": userData.data.name ? userData.data.name : " ",
                 "billing_address": "sample",
                 "billing_city": "testCity",

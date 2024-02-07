@@ -60,7 +60,7 @@ export class Youtube {
                         console.log(e);
                     }
                 }
-            }, 1000 * 60 * 60);
+            }, 1000 * 60 * 60*2);
         } catch (e: any) {
             console.log(e);
         }

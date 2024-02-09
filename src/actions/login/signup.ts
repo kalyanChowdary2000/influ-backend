@@ -13,17 +13,15 @@ router.post("/", async (req: any, res: any) => {
             name,
             phone,
             password,
-            instagram,
-            youtube,
             dob,
             gender
         } = req.body
-        if (instagram != "") {
-            await Instagram.createItem(instagram.trim(), phone);
-        }
-        if (youtube != "") {
-            await Youtube.createItem(youtube.trim(), phone)
-        }
+        // if (instagram != "") {
+        //     await Instagram.createItem(instagram.trim(), phone);
+        // }
+        // if (youtube != "") {
+        //     await Youtube.createItem(youtube.trim(), phone)
+        // }
         let mongoResponse = await MongoConnection.addUser({
             _id: phone,
             name: name,
@@ -31,9 +29,9 @@ router.post("/", async (req: any, res: any) => {
             password: stringHash(password),
             walletMoney: 0,
             role: "influ",
-            active:false,
-            instagram: instagram.trim(),
-            youtube: youtube,
+            active: true,
+            // instagram: instagram.trim(),
+            // youtube: youtube,
             dob: dob,
             gender: gender,
             imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
@@ -48,8 +46,9 @@ router.post("/", async (req: any, res: any) => {
                 email: email,
                 password: stringHash(password),
                 role: "influ",
-                instagram: instagram.trim(),
-                youtube: youtube,
+                active: true,
+                // instagram: instagram.trim(),
+                // youtube: youtube,
                 dob: dob,
                 walletMoney: 0,
                 gender: gender,
@@ -61,8 +60,9 @@ router.post("/", async (req: any, res: any) => {
                     _id: phone,
                     name: name,
                     email: email,
-                    instagram: instagram.trim(),
-                    youtube: youtube,
+                    active: true,
+                    // instagram: instagram.trim(),
+                    // youtube: youtube.,
                     dob: dob,
                     walletMoney: 0,
                     gender: gender,

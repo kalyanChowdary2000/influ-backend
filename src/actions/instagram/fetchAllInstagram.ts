@@ -14,7 +14,7 @@ router.post("/", async (req: any, res: any) => {
         for (let i = 0; i < instagramData.length; i++) {
             followerCount = followerCount + instagramData[i].followerCount;
             er = er + instagramData[i].engagementRate
-            reach = reach + instagramData[i].reach
+            reach = reach + instagramData[i].reach/10
         }
         console.log(mongoResponse)
         if (mongoResponse.success) {

@@ -14,7 +14,7 @@ router.post("/", async (req: any, res: any) => {
         for (let i = 0; i < youtubeData.length; i++) {
             followerCount = followerCount + parseInt(youtubeData[i].followerCount);
             er = er + youtubeData[i].engagementRate
-            reach = reach + youtubeData[i].reach
+            reach = reach + youtubeData[i].reach/10
         }
         console.log(mongoResponse)
         if (mongoResponse.success) {

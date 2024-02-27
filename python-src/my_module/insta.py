@@ -2,6 +2,13 @@ import instaloader
 from flask import Flask, request, jsonify
 from googleapiclient.discovery import build
 app = Flask(__name__)
+bot=instaloader.Instaloader();
+try:
+    print("Before login")
+    bot.login("beinfluencerindia", "12345Done")
+    print("After login")
+except Exception as e:
+    print(e);
 
 @app.route('/get_follower_count', methods=['POST'])
 def get_follower_count():
@@ -9,7 +16,6 @@ def get_follower_count():
     if 'username' not in data:
         return jsonify({'error': 'Please provide a username in the request body'}), 400
     username = data['username']
-    bot = instaloader.Instaloader()
     try:
         profile = instaloader.Profile.from_username(bot.context, username)
     except Exception as e:
@@ -28,15 +34,6 @@ def get_instagram_bio():
     if 'username' not in data:
         return jsonify({'error': 'Please provide a username in the request body'}), 400
     username = data['username']
-    bot = instaloader.Instaloader()
-
-    try:
-        print("Before login")
-        bot.login("beinfluencer6", "Beinflu@150")
-        print("After login")
-    except Exception as e:
-        return jsonify({'error': f'Error during login: {str(e)}'}), 400
-
     try:
 
         profile = instaloader.Profile.from_username(bot.context, username)
@@ -59,7 +56,6 @@ def get_engagement_rate():
         return jsonify({'error': 'Please provide a username in the request body'}), 400
     username = data['username'];
     print("Username is ",username);
-    bot = instaloader.Instaloader()
     try:
         profile = instaloader.Profile.from_username(bot.context, username)
     except Exception as e:
@@ -262,9 +258,6 @@ def get_latest_insta_post_info():
         return jsonify({'error': 'Please provide a developer key and channel ID in the request body'}), 400
 
     username = data['username']
-    bot = instaloader.Instaloader()
-#replace your instagram username where"yraveena_01"
-# profile1=bot.interactive_login("kalyan_chowdary21")
     profile = instaloader.Profile.from_username(bot.context, username)
     posts = profile.get_posts()
     for index, post in enumerate(posts, 1):
@@ -287,13 +280,6 @@ def get_instagram_post_metrics():
     username = data['username']
     shortcode = data['shortcode']
     print(shortcode); 
-    bot = instaloader.Instaloader()
-    try:
-        print("Before login")
-        bot.login("beinfluencer6", "Beinflu@150")
-        print("After login")
-    except Exception as e:
-        return jsonify({'error': f'Error during login: {str(e)}'}), 400
     try:
         profile = instaloader.Profile.from_username(bot.context, username)
         posts=profile.get_posts();

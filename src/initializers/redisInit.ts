@@ -11,7 +11,7 @@ export default class RedisConnector {
             password: password
         };
         RedisConnector.connection = createClient(redisClientOpts);
-        RedisConnector.connection = createClient();
+       // RedisConnector.connection = createClient();
         await RedisConnector.connection.connect();
     }
 

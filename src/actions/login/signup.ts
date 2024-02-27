@@ -31,7 +31,7 @@ router.post("/", async (req: any, res: any) => {
             role: "influ",
             active: true,
             // instagram: instagram.trim(),
-            // youtube: youtube,
+            // youtube: youtube.trim(),
             dob: dob,
             gender: gender,
             imageLink: "https://azhanaresources.s3.ap-south-1.amazonaws.com/images/first_profile.png"
@@ -48,7 +48,7 @@ router.post("/", async (req: any, res: any) => {
                 role: "influ",
                 active: true,
                 // instagram: instagram.trim(),
-                // youtube: youtube,
+                // youtube: youtube.trim(),
                 dob: dob,
                 walletMoney: 0,
                 gender: gender,
@@ -62,7 +62,7 @@ router.post("/", async (req: any, res: any) => {
                     email: email,
                     active: true,
                     // instagram: instagram.trim(),
-                    // youtube: youtube.,
+                    // youtube: youtube.trim(),
                     dob: dob,
                     walletMoney: 0,
                     gender: gender,
@@ -82,4 +82,4 @@ router.post("/", async (req: any, res: any) => {
         }));
     }
 })
-export default router; 
+export default router;

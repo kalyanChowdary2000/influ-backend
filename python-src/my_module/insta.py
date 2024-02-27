@@ -24,13 +24,23 @@ def get_follower_count():
 @app.route('/get_instagram_bio', methods=['POST'])
 def get_instagram_bio():
     data = request.get_json()
+    print(data);
     if 'username' not in data:
         return jsonify({'error': 'Please provide a username in the request body'}), 400
     username = data['username']
     bot = instaloader.Instaloader()
-    
+
     try:
+        print("Before login")
+        bot.login("beinfluencer6", "Beinflu@150")
+        print("After login")
+    except Exception as e:
+        return jsonify({'error': f'Error during login: {str(e)}'}), 400
+
+    try:
+
         profile = instaloader.Profile.from_username(bot.context, username)
+        
     except Exception as e:
         return jsonify({'error': f'Error fetching profile: {str(e)}'}), 400
 
@@ -278,7 +288,12 @@ def get_instagram_post_metrics():
     shortcode = data['shortcode']
     print(shortcode); 
     bot = instaloader.Instaloader()
-
+    try:
+        print("Before login")
+        bot.login("beinfluencer6", "Beinflu@150")
+        print("After login")
+    except Exception as e:
+        return jsonify({'error': f'Error during login: {str(e)}'}), 400
     try:
         profile = instaloader.Profile.from_username(bot.context, username)
         posts=profile.get_posts();

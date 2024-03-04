@@ -44,6 +44,7 @@ import paymentFlag from './actions/login/paymentFlag';
 import forgotPassword from './actions/login/forgotPassword';
 import paymentFlagVerification from './actions/login/paymentFlagVerificaiton'
 import activateFlag from './actions/login/activateFlag';
+import fetchGlobalAdd from './actions/add/fetchGlobalAdd';
 const requestLogger = (req: any, res: any, next: any) => {
     console.log(`Method: ${req.method}`);
     console.log(`Path: ${req.path}`);
@@ -99,6 +100,7 @@ export class MainServer {
         MainServer.app.use('/uploadMedia', uploadMedia);
         MainServer.app.use('/testAdd', testAdd);
         MainServer.app.use('/fetchInfluAdd', fetchInfluAdd);
+        MainServer.app.use('/fetchGlobalAdd', fetchGlobalAdd);
         MainServer.app.use('/verifyAdd', verifyAdd);
         MainServer.app.use('/fetchComAdd', fetchComAdd);
         MainServer.app.use('/addInstagram', addInstagram);

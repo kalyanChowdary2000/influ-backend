@@ -71,7 +71,7 @@ export class MainServer {
         console.log("redis connected");
         await AWSServicesManager.initialize();
         console.log("aws initialized")
-        Instagram.updateInstagramData();
+        Instagram.initialize();
         Youtube.initialize();
         RunningStatus.updateRunningStatus();
         await this.start();

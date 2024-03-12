@@ -22,6 +22,7 @@ router.post("/", async (req: any, res: any) => {
             email: email,
             password: stringHash(password),
             role: "company",
+            active:true,
             designaiton: designaiton
         })
 

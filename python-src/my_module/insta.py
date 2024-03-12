@@ -3,12 +3,12 @@ from flask import Flask, request, jsonify
 from googleapiclient.discovery import build
 app = Flask(__name__)
 bot=instaloader.Instaloader();
-try:
-    print("Before login")
-    bot.login("beinfluencerindia", "12345Done")
-    print("After login")
-except Exception as e:
-    print(e);
+# try:
+#     print("Before login")
+#     bot.login("beinfluencerindia", "12345Done")
+#     print("After login")
+# except Exception as e:
+#     print(e);
 
 @app.route('/get_follower_count', methods=['POST'])
 def get_follower_count():
@@ -49,6 +49,23 @@ def get_instagram_bio():
     }
 
     return jsonify(response_data)
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        print("Before login")
+        bot.login("doubleapplecafeindia", "12345Sample")
+        print("After login")
+        response_data = {
+        'success': "true"
+        }
+        return jsonify(response_data)
+    except Exception as e:
+        print(e);    
+        response_data = {
+        'success': "false",
+        'error':e
+        }
+        return jsonify(response_data)
 @app.route('/get_engagement_rate', methods=['POST'])
 def get_engagement_rate():
     data = request.get_json()
@@ -56,6 +73,12 @@ def get_engagement_rate():
         return jsonify({'error': 'Please provide a username in the request body'}), 400
     username = data['username'];
     print("Username is ",username);
+    # try:
+    #     print("Before login")
+    #     bot.login("beinfluencerindia", "12345Done")
+    #     print("After login")
+    # except Exception as e:
+    #     print(e);
     try:
         profile = instaloader.Profile.from_username(bot.context, username)
     except Exception as e:

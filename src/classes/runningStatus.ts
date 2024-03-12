@@ -7,12 +7,14 @@ export class RunningStatus {
     static async updateRunningStatus() {
         try {
             console.log("updating running add status after 30 min from now ", new Date().toLocaleDateString(), new Date().toLocaleTimeString());
+            
             setInterval(async () => {
                 let data: any = await MongoConnection.fetchAllComAdd();
                 console.log("--------------- com add data ", data);
                 let comAddData = data.data;
                 let instaAxiosResponse;
                 let ytAxiosResponse;
+                let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
                 for (let i = 0; i < comAddData.length; i++) {
                     if (comAddData[i].instaFlag) {
                         try {

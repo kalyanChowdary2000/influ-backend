@@ -40,8 +40,8 @@ export class Instagram {
     static async updateInstagramData() {
         try {
             console.log("updating instagram after 30 min from now ", new Date().toLocaleDateString(), new Date().toLocaleTimeString());
-            let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
-            console.log(AuthResposne);
+           // let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
+            //console.log(AuthResposne);
             let data: any = await MongoConnection.findAllUsers();
             let userData = data.data
             for (let i = 0; i < userData.length; i++) {

@@ -14,7 +14,7 @@ export class RunningStatus {
                 let comAddData = data.data;
                 let instaAxiosResponse;
                 let ytAxiosResponse;
-                let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
+                //let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
                 for (let i = 0; i < comAddData.length; i++) {
                     if (comAddData[i].instaFlag) {
                         try {

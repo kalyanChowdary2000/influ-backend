@@ -2,7 +2,6 @@ from instaloader import Instaloader, Profile, ConnectionException
 from flask import Flask, request, jsonify
 from googleapiclient.discovery import build
 app = Flask(__name__)
-bot=instaloader.Instaloader();
 loader = Instaloader()
 # try:
 #     print("Before login")
@@ -50,23 +49,23 @@ def get_instagram_bio():
     }
 
     return jsonify(response_data)
-@app.route('/login', methods=['POST'])
-def login():
-    try:
-        print("Before login")
-        bot.login("doubleapplecafeindia", "12345Sample")
-        print("After login")
-        response_data = {
-        'success': "true"
-        }
-        return jsonify(response_data)
-    except Exception as e:
-        print(e);    
-        response_data = {
-        'success': "false",
-        'error':e
-        }
-        return jsonify(response_data)
+# @app.route('/login', methods=['POST'])
+# def login():
+#     try:
+#         print("Before login")
+#         bot.login("doubleapplecafeindia", "12345Sample")
+#         print("After login")
+#         response_data = {
+#         'success': "true"
+#         }
+#         return jsonify(response_data)
+#     except Exception as e:
+#         print(e);    
+#         response_data = {
+#         'success': "false",
+#         'error':e
+#         }
+#         return jsonify(response_data)
 @app.route('/get_engagement_rate', methods=['POST'])
 def get_engagement_rate():
     data = request.get_json()
@@ -282,7 +281,7 @@ def get_latest_insta_post_info():
         return jsonify({'error': 'Please provide a developer key and channel ID in the request body'}), 400
 
     username = data['username']
-    profile = instaloader.Profile.from_username(bot.context, username)
+    profile = Profile.from_username(loader.context, username)
     posts = profile.get_posts()
     for index, post in enumerate(posts, 1):
         postData=post;
@@ -305,7 +304,7 @@ def get_instagram_post_metrics():
     shortcode = data['shortcode']
     print(shortcode); 
     try:
-        profile = instaloader.Profile.from_username(bot.context, username)
+        profile = Profile.from_username(loader.context, username)
         posts=profile.get_posts();
         p1=''
         for index, post in enumerate(posts, 0):

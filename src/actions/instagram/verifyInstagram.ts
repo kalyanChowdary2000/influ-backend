@@ -9,7 +9,7 @@ router.post("/", async (req: any, res: any) => {
         console.log("---------->> sign in ")
         const { username,verificationCode
         } = req.body
-        let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
+       // let AuthResposne=await axios.post(`${Config.pythonUrl}/login`);
         let axiosResponse=await axios.post(`${Config.pythonUrl}/get_instagram_bio`,{
             username:username.trim()
         })

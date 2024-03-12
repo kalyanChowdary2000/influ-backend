@@ -1,8 +1,9 @@
-import instaloader
+from instaloader import Instaloader, Profile, ConnectionException
 from flask import Flask, request, jsonify
 from googleapiclient.discovery import build
 app = Flask(__name__)
 bot=instaloader.Instaloader();
+loader = Instaloader()
 # try:
 #     print("Before login")
 #     bot.login("beinfluencerindia", "12345Done")
@@ -17,7 +18,7 @@ def get_follower_count():
         return jsonify({'error': 'Please provide a username in the request body'}), 400
     username = data['username']
     try:
-        profile = instaloader.Profile.from_username(bot.context, username)
+        profile = Profile.from_username(loader.context, username)
     except Exception as e:
         return jsonify({'error': f'Error fetching profile: {str(e)}'}), 400
     followers_count = profile.followers
@@ -36,7 +37,7 @@ def get_instagram_bio():
     username = data['username']
     try:
 
-        profile = instaloader.Profile.from_username(bot.context, username)
+        profile = Profile.from_username(loader.context, username)
         
     except Exception as e:
         return jsonify({'error': f'Error fetching profile: {str(e)}'}), 400
@@ -80,7 +81,7 @@ def get_engagement_rate():
     # except Exception as e:
     #     print(e);
     try:
-        profile = instaloader.Profile.from_username(bot.context, username)
+        profile = Profile.from_username(loader.context, username)
     except Exception as e:
         return jsonify({'error': f'Error fetching profile: {str(e)}'}), 400
     posts = profile.get_posts()

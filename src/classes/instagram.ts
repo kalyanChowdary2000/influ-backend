@@ -2,6 +2,7 @@ import axios from "axios";
 import { MongoConnection } from "./mongo";
 import { Config } from "../config/credentials";
 import cron from 'node-cron';
+import { asyncDelay } from "../utils/generalFunctions";
 export class Instagram {
     static async createItem(instagramId: string, userId: string) {
         try {
@@ -60,6 +61,7 @@ export class Instagram {
                         engagementRate: engagementRate,
                         reach: reach
                     })
+                    await asyncDelay(3000);
                 } catch (e: any) {
                     console.log(e);
                 }

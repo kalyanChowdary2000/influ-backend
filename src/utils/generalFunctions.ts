@@ -9,3 +9,10 @@ export const makeid = (length: any) => {
     }
     return result;
 }
+export const asyncDelay=(time:any)=>{
+    return new Promise((resolve)=>{
+        setTimeout(()=>{
+            resolve(true);
+        },time)
+    })
+}

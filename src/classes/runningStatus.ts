@@ -1,6 +1,7 @@
 import axios from "axios";
 import { MongoConnection } from "./mongo";
 import { Config } from "../config/credentials";
+import { asyncDelay } from "../utils/generalFunctions";
 
 export class RunningStatus {
 
@@ -25,6 +26,7 @@ export class RunningStatus {
                             })
                             console.log(instaAxiosResponse.data)
                             await MongoConnection.editComAdd({ _id: comAddData[i]._id }, { instaData: instaAxiosResponse.data });
+                            await asyncDelay(3000);
                         } catch (e: any) {
                             console.log(e);
                         }
@@ -38,6 +40,7 @@ export class RunningStatus {
                             })
                             console.log(ytAxiosResponse.data);
                             await MongoConnection.editComAdd({ _id: comAddData[i]._id }, { ytData: ytAxiosResponse.data });
+                            await asyncDelay(3000);
                         } catch (e: any) {
                             console.log(e);
                         }

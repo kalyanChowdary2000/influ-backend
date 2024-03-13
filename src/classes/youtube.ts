@@ -2,6 +2,7 @@ import axios from "axios";
 import { MongoConnection } from "./mongo";
 import { Config } from "../config/credentials";
 import cron from 'node-cron';
+import { asyncDelay } from "../utils/generalFunctions";
 export class Youtube {
     static async createItem(channelId: string, userId: string) {
         try {
@@ -34,7 +35,7 @@ export class Youtube {
         }
     }
     static async initialize() {
-        cron.schedule('0 2 * * *', async () => {
+        cron.schedule('0 3 * * *', async () => {
             await this.updateYoutubeData();
         }, {
             scheduled: true,
@@ -64,6 +65,7 @@ export class Youtube {
                         engagementRate: engagementRate,
                         reach: reach
                     })
+                    await asyncDelay(3000);
                 } catch (e: any) {
                     console.log(e);
                 }

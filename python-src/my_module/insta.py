@@ -5,7 +5,7 @@ app = Flask(__name__)
 loader = Instaloader()
 # try:
 #     print("Before login")
-#     bot.login("beinfluencerindia", "12345Done")
+#     loader.login("beinfluencerindia", "12345Done")
 #     print("After login")
 # except Exception as e:
 #     print(e);

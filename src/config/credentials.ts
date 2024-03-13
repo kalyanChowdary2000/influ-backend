@@ -26,7 +26,8 @@ export class Config {
             working_key: "8D897EB0340D9B711983F569722DB906"
         },
     }
-    static pythonUrl = "http://100.114.240.112:6061"
+    //static pythonUrl = "http://100.114.240.112:6061"
+    static pythonUrl = "http://100.84.18.148:6061"
     //static pythonUrl="http://127.0.0.1:6061"
     static smsStriver = {
         username: 'azhana',
